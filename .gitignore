@@ -1,0 +1,8 @@
+contracts/src/artifacts/
+node_modules/
+.deps/
+artifacts/
+bin/
+backend/cache/
+backend/.env
+backend/node_modules/
