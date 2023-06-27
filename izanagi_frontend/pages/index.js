@@ -9,7 +9,7 @@ export default function Home() {
     <div className={styles.container}>
       <main className={styles.main}>
         <h1 className={styles.title}>
-          Welcome to <a href="https://thirdweb.com/">izanagi DAO</a>!
+          Welcome to <a href="/">Izanagi DAO</a>!
         </h1>
 
         <p className={styles.description}>

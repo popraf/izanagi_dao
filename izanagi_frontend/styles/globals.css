@@ -27,7 +27,7 @@ body {
 
 :root {
   --color-bg: #171719;
-  --color-border: #00d03c;
+  --color-border: #F213A4;
   --color-sidebar-item: #272729;
 }
 
@@ -100,7 +100,7 @@ body {
 }
 
 .sidebar__link--active {
-  color: #00d03c;
+  color: #F213A4;
   background-color: #414243;
 }
 
@@ -141,14 +141,31 @@ body {
 }
 
 .customConnectButton {
-  background-color: var(--color-sidebar-item) !important;
+  /* background-color: var(--color-sidebar-item) !important; */
   /* font-size: 1.2rem !important; */
   /* display: inline-block !important; */
   color: #a09e9e !important;
-  padding: 0.8rem 1rem !important;
-  display: flex !important;
+  /* padding: 0.8rem 1rem !important; */
+  /* display: flex !important; */
   background-color: var(--color-sidebar-item) !important;
-  margin-bottom: 1rem !important;
-  border-radius: 0.8rem !important;
-  width: 15rem !important;
+  /* margin-bottom: 1rem !important; */
+  /* border-radius: 0.8rem !important; */
+  /* width: 15rem !important; */
+  /* align-items: right !important; */
+}
+
+.navbar__list {
+  display: flex;
+  justify-content: space-between;
+}
+
+.navbar__item {
+  margin-left: 10px;
+  justify-content: left;
+  padding: 15px;
+}
+
+.navbar__wallet {
+  justify-content: right;
+  padding: 15px;
 }

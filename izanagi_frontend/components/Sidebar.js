@@ -10,7 +10,6 @@ const Link = require("next/link");
 const { useContext } = require("react");
 const { SidebarContext } = require("../context/SidebarContext");
 const { useRouter } = require("next/router");
-const { ConnectWallet } = require("@thirdweb-dev/react");
 
 const sidebarItems = [
   {
@@ -38,11 +37,6 @@ const sidebarItems = [
     href: "/profile",
     icon: CgProfile,
   },
-  {
-    name: "Connect Wallet",
-    href: "/connect",
-    icon: AiOutlineWallet,
-  },
 ];
 
 const Sidebar = () => {
@@ -67,23 +61,10 @@ const Sidebar = () => {
         </div>
         <ul className="sidebar__list">
           {sidebarItems.map(({ name, href, icon: Icon }) => {
-            if (name === "Connect Wallet") {
-              return (
-                <li className="sidebar__item" key={name}>
-                  <span className="sidebar__icon">
-                    <ConnectWallet className="customConnectButton"/>
-                  </span>
-                </li>
-              );
-            }
             return (
               <li className="sidebar__item" key={name}>
                 <Link href={href}>
-                  <span
-                    className={`sidebar__link ${
-                      router.pathname === href ? "sidebar__link--active" : ""
-                    }`}
-                  >
+                  <span className={`sidebar__link ${router.pathname === href ? "sidebar__link--active" : ""}`}>
                     <span className="sidebar__icon">
                       <Icon />
                     </span>
