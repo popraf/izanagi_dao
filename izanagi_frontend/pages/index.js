@@ -1,12 +1,15 @@
 import { ConnectWallet } from "@thirdweb-dev/react";
 import styles from "../styles/Home.module.css";
+import BaseLayout from "../components/BaseLayout";
+
 
 export default function Home() {
   return (
+    <BaseLayout>
     <div className={styles.container}>
       <main className={styles.main}>
         <h1 className={styles.title}>
-          Welcome to <a href="https://thirdweb.com/">thirdweb</a>!
+          Welcome to <a href="https://thirdweb.com/">izanagi DAO</a>!
         </h1>
 
         <p className={styles.description}>
@@ -48,5 +51,6 @@ export default function Home() {
         </div>
       </main>
     </div>
+    </BaseLayout>
   );
 }

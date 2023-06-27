@@ -1,15 +1,16 @@
-import Image from "next/image";
-import { AiOutlineHome, AiOutlineInfoCircle, AiOutlineLogout, AiOutlineWallet } from "react-icons/ai";
-import { BsPeople, BsMegaphone } from "react-icons/bs";
-import { TiContacts } from "react-icons/ti";
-import { FiMail } from "react-icons/fi";
-import { CgProfile } from "react-icons/cg";
-import { FaHandsHelping } from "react-icons/fa";
-import { MdKeyboardArrowLeft, MdKeyboardArrowRight } from "react-icons/md";
-import Link from "next/link";
-import { useContext } from "react";
-import { SidebarContext } from "../context/SidebarContext";
-import { useRouter } from "next/router";
+const Image = require("next/image");
+const { AiOutlineHome, AiOutlineInfoCircle, AiOutlineLogout, AiOutlineWallet } = require("react-icons/ai");
+const { BsPeople, BsMegaphone, BsBoxes } = require("react-icons/bs");
+const { TiContacts } = require("react-icons/ti");
+const { FiMail } = require("react-icons/fi");
+const { CgProfile } = require("react-icons/cg");
+const { FaHandsHelping } = require("react-icons/fa");
+const { MdKeyboardArrowLeft, MdKeyboardArrowRight } = require("react-icons/md");
+const Link = require("next/link");
+const { useContext } = require("react");
+const { SidebarContext } = require("../context/SidebarContext");
+const { useRouter } = require("next/router");
+const { ConnectWallet } = require("@thirdweb-dev/react");
 
 const sidebarItems = [
   {
@@ -25,12 +26,7 @@ const sidebarItems = [
   {
     name: "Proposals",
     href: "/proposals",
-    icon: FaHandsHelping,
-  },
-  {
-    name: "Connect Wallet",
-    href: "/connect",
-    icon: AiOutlineWallet,
+    icon: BsBoxes,
   },
   {
     name: "New Proposal",
@@ -43,9 +39,9 @@ const sidebarItems = [
     icon: CgProfile,
   },
   {
-    name: "Logout",
-    href: "/logout",
-    icon: AiOutlineLogout,
+    name: "Connect Wallet",
+    href: "/connect",
+    icon: AiOutlineWallet,
   },
 ];
 
@@ -71,18 +67,28 @@ const Sidebar = () => {
         </div>
         <ul className="sidebar__list">
           {sidebarItems.map(({ name, href, icon: Icon }) => {
+            if (name === "Connect Wallet") {
+              return (
+                <li className="sidebar__item" key={name}>
+                  <span className="sidebar__icon">
+                    <ConnectWallet className="customConnectButton"/>
+                  </span>
+                </li>
+              );
+            }
             return (
               <li className="sidebar__item" key={name}>
-                <Link
-                  className={`sidebar__link ${
-                    router.pathname === href ? "sidebar__link--active" : ""
-                  }`}
-                  href={href}
-                >
-                  <span className="sidebar__icon">
-                    <Icon />
+                <Link href={href}>
+                  <span
+                    className={`sidebar__link ${
+                      router.pathname === href ? "sidebar__link--active" : ""
+                    }`}
+                  >
+                    <span className="sidebar__icon">
+                      <Icon />
+                    </span>
+                    <span className="sidebar__name">{name}</span>
                   </span>
-                  <span className="sidebar__name">{name}</span>
                 </Link>
               </li>
             );
@@ -93,4 +99,4 @@ const Sidebar = () => {
   );
 };
 
-export default Sidebar;
+module.exports = Sidebar;
