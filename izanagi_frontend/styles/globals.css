@@ -141,25 +141,18 @@ body {
 }
 
 .customConnectButton {
-  /* background-color: var(--color-sidebar-item) !important; */
-  /* font-size: 1.2rem !important; */
-  /* display: inline-block !important; */
-  color: #a09e9e !important;
-  /* padding: 0.8rem 1rem !important; */
-  /* display: flex !important; */
+  color: #a09ea0 !important;
   background-color: var(--color-sidebar-item) !important;
-  /* margin-bottom: 1rem !important; */
-  /* border-radius: 0.8rem !important; */
-  /* width: 15rem !important; */
-  /* align-items: right !important; */
+  height: 5vh !important;
 }
 
 .navbar__list {
   display: flex;
   justify-content: space-between;
+  height: 5vh;
 }
 
-.navbar__item {
+.navbar__search {
   margin-left: 10px;
   justify-content: left;
   padding: 15px;

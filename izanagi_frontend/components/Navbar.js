@@ -9,8 +9,8 @@ const Navbar = () => {
   return (
     <nav className="navbar__list">
 
-            <ul className="navbar__item">
-                <Link href="/">Home</Link>
+            <ul className="navbar__search">
+                <Link href="/">SearchBoxTODO</Link>
             </ul>
 
             <div className="navbar__wallet">

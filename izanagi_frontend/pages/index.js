@@ -13,39 +13,38 @@ export default function Home() {
         </h1>
 
         <p className={styles.description}>
-          Get started by configuring your desired network in{" "}
-          <code className={styles.code}>pages/_app.js</code>, then modify the{" "}
-          <code className={styles.code}>pages/index.js</code> file!
+        Members of Izanagi DAO have the opportunity to propose projects that aim to create positive change in society.
         </p>
 
-        <div className={styles.connect}>
-          <ConnectWallet />
+        <div >
+          <ConnectWallet className="customConnectButton"/>
         </div>
 
         <div className={styles.grid}>
-          <a href="https://portal.thirdweb.com/" className={styles.card}>
-            <h2>Portal &rarr;</h2>
+          <a href="/about" className={styles.card}>
+            <h2>About &rarr;</h2>
             <p>
-              Guides, references and resources that will help you build with
-              thirdweb.
+              Learn more about decentralized nature of the project, enabling
+              individuals to work towards common social objectives.
             </p>
           </a>
 
-          <a href="https://thirdweb.com/dashboard" className={styles.card}>
-            <h2>Dashboard &rarr;</h2>
+          <a href="/proposals" className={styles.card}>
+            <h2>Proposals &rarr;</h2>
             <p>
-              Deploy, configure and manage your smart contracts from the
-              dashboard.
+            
+            Vote to allocate resources and financial support to the selected projects, enabling them to come to fruition.
             </p>
           </a>
 
           <a
-            href="https://portal.thirdweb.com/templates"
+            href="/new_proposal"
             className={styles.card}
           >
-            <h2>Templates &rarr;</h2>
+            <h2>New Proposal &rarr;</h2>
             <p>
-              Discover and clone template projects showcasing thirdweb features.
+              Submit project ideas and initiatives for funding,
+              fostering a collective effort to address societal challenges. 
             </p>
           </a>
         </div>

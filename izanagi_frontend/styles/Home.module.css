@@ -3,7 +3,7 @@
 }
 
 .main {
-  min-height: 100vh;
+  min-height: 95vh;
   padding: 4rem 0;
   flex: 1;
   display: flex;
@@ -61,6 +61,7 @@
   justify-content: center;
   flex-wrap: wrap;
   max-width: 1200px;
+  text-align: center;
 }
 
 .card {
@@ -116,4 +117,15 @@
 }
 .logo img {
   filter: invert(1);
+}
+
+.grid_text {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  max-width: 1200px;
+  text-align: center;
+  margin-top: 1rem;
+  margin-bottom: 2rem;
 }
