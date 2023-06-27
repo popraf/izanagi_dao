@@ -1,9 +1,9 @@
 import BaseLayout from "../components/BaseLayout";
 
-const About = () => {
+const Profile = () => {
   return(
   <BaseLayout>
-    <h1>About</h1>
+    <h1>Profile</h1>
     <div>
     Focuses on social impact initiatives.
     Members can propose and support projects that address environmental, social, or governance challenges.
@@ -13,4 +13,4 @@ const About = () => {
   );
 };
 
-export default About;
+export default Profile;

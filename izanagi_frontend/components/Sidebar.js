@@ -1,8 +1,10 @@
 import Image from "next/image";
-import { AiOutlineHome } from "react-icons/ai";
-import { BsPeople } from "react-icons/bs";
+import { AiOutlineHome, AiOutlineInfoCircle, AiOutlineLogout, AiOutlineWallet } from "react-icons/ai";
+import { BsPeople, BsMegaphone } from "react-icons/bs";
 import { TiContacts } from "react-icons/ti";
 import { FiMail } from "react-icons/fi";
+import { CgProfile } from "react-icons/cg";
+import { FaHandsHelping } from "react-icons/fa";
 import { MdKeyboardArrowLeft, MdKeyboardArrowRight } from "react-icons/md";
 import Link from "next/link";
 import { useContext } from "react";
@@ -18,17 +20,32 @@ const sidebarItems = [
   {
     name: "About",
     href: "/about",
-    icon: BsPeople,
+    icon: AiOutlineInfoCircle,
   },
   {
-    name: "Mails",
-    href: "/mails",
-    icon: FiMail,
+    name: "Proposals",
+    href: "/proposals",
+    icon: FaHandsHelping,
   },
   {
-    name: "Contact",
-    href: "/contact",
-    icon: TiContacts,
+    name: "Connect Wallet",
+    href: "/connect",
+    icon: AiOutlineWallet,
+  },
+  {
+    name: "New Proposal",
+    href: "/new_proposal",
+    icon: BsMegaphone,
+  },
+  {
+    name: "Profile",
+    href: "/profile",
+    icon: CgProfile,
+  },
+  {
+    name: "Logout",
+    href: "/logout",
+    icon: AiOutlineLogout,
   },
 ];
 
