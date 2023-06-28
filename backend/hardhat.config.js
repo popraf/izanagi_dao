@@ -14,7 +14,7 @@ module.exports = {
     mumbai: {
       url: polygonMumbaiRPC,
       accounts: [privateKey],
-      gasPrice: 3500000,
+      gasPrice: 3500000000,
     },
 
     goerli: {
