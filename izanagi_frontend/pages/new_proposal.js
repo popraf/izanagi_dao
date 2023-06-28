@@ -1,4 +1,5 @@
 import BaseLayout from "../components/BaseLayout";
+import withAuth from "../utils/withAuth";
 
 const NewProposal = () => {
   return(
@@ -13,4 +14,4 @@ const NewProposal = () => {
   );
 };
 
-export default NewProposal;
+export default withAuth(NewProposal);

@@ -1,4 +1,5 @@
 import BaseLayout from "../components/BaseLayout";
+import withAuth from "../utils/withAuth";
 
 const Profile = () => {
   return(
@@ -13,4 +14,4 @@ const Profile = () => {
   );
 };
 
-export default Profile;
+export default withAuth(Profile);

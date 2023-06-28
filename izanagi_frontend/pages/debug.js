@@ -51,6 +51,7 @@ const Debug = () => {
       )}
 
       <pre>Connected Wallet: {address}</pre>
+      <pre>const connect: {connect}</pre>
       <pre>User addr: {user?.address || "N/A"}</pre>
       <pre>User: {user}</pre>
     </div>

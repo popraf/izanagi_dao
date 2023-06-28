@@ -1,3 +1,4 @@
+import { useAddress } from "@thirdweb-dev/react";
 const Image = require("next/image");
 const { AiOutlineHome, AiOutlineInfoCircle, AiOutlineLogout, AiOutlineWallet } = require("react-icons/ai");
 const { BsPeople, BsMegaphone, BsBoxes } = require("react-icons/bs");
@@ -11,7 +12,7 @@ const { useContext } = require("react");
 const { SidebarContext } = require("../context/SidebarContext");
 const { useRouter } = require("next/router");
 
-const sidebarItems = [
+const sidebarItemsAll = [
   {
     name: "Home",
     href: "/",
@@ -27,6 +28,9 @@ const sidebarItems = [
     href: "/proposals",
     icon: BsBoxes,
   },
+];
+
+const sidebarItemsLogged = [
   {
     name: "New Proposal",
     href: "/new_proposal",
@@ -41,6 +45,7 @@ const sidebarItems = [
 
 const Sidebar = () => {
   const router = useRouter();
+  const address = useAddress();
   const { isCollapsed, toggleSidebarcollapse } = useContext(SidebarContext);
 
   return (
@@ -60,7 +65,7 @@ const Sidebar = () => {
           <p className="sidebar__logo-name">Izanagi DAO</p>
         </div>
         <ul className="sidebar__list">
-          {sidebarItems.map(({ name, href, icon: Icon }) => {
+          {sidebarItemsAll.map(({ name, href, icon: Icon }) => {
             return (
               <li className="sidebar__item" key={name}>
                 <Link href={href}>
@@ -74,6 +79,22 @@ const Sidebar = () => {
               </li>
             );
           })}
+          {address?(sidebarItemsLogged.map(({ name, href, icon: Icon }) => {
+            return (
+              <li className="sidebar__item" key={name}>
+                <Link href={href}>
+                  <span className={`sidebar__link ${router.pathname === href ? "sidebar__link--active" : ""}`}>
+                    <span className="sidebar__icon">
+                      <Icon />
+                    </span>
+                    <span className="sidebar__name">{name}</span>
+                  </span>
+                </Link>
+              </li>
+            );
+          }))
+          :""
+          }
         </ul>
       </aside>
     </div>
