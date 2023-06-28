@@ -6,3 +6,5 @@ bin/
 backend/cache/
 backend/.env
 backend/node_modules/
+backend/.env.local
+backend/.env.json

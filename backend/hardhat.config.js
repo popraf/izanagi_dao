@@ -1,9 +1,10 @@
 require('dotenv').config();
 require("@nomicfoundation/hardhat-toolbox");
+const { privateKey, polygonMumbaiRPC } = require('./.env.json');
 
 /** @type import('hardhat/config').HardhatUserConfig */
 module.exports = {
-  solidity: "0.8.20",
+  solidity: "0.8.19",
 
   defaultNetwork: "localhost",
 
@@ -13,7 +14,12 @@ module.exports = {
     mumbai: {
       url: polygonMumbaiRPC,
       accounts: [privateKey],
-      gasPrice: 350000,
+      gasPrice: 3500000,
+    },
+
+    goerli: {
+      url: "https://rpc.ankr.com/eth_goerli",
+      accounts: [privateKey],
     },
 
     localhost: {
