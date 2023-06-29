@@ -9,3 +9,5 @@ backend/node_modules/
 backend/.env.local
 backend/.env.json
 backend/contract-address.txt
+izanagi_frontend/.env
+izanagi_frontend/.env.json
