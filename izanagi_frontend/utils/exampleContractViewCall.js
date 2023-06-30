@@ -1,11 +1,9 @@
 import { useContract, useSDK, useContractRead } from "@thirdweb-dev/react";
 import contract_abi from "./ContractABI.json";
 import { useState } from "react";
-const { CONTRACT_ADDRESS } = require('../.env.json');
-
 
 const ExampleCall = () => {
-    const contract_address=CONTRACT_ADDRESS;
+    const contract_address=process.env.NEXT_PUBLIC_CONTRACT_ADDRESS;
     const sdk = useSDK();
     const [signature, setSignature] = useState('N/A');
     const [address, setAddress] = useState('N/A');
@@ -14,18 +12,13 @@ const ExampleCall = () => {
         contract_address,
         contract_abi.abi
     );
-    
 
     const { data, _isLoading, _error } = useContractRead(contract,'getProposals');
 
-
     function _getProposals() {
-        // console.log(contract);
         console.log(isLoading);
         console.log(error);
         if (contract) {
-            
-            <div>button data: {data} </div>
             console.log('----- DATA:', data, 'ISLOADING:', isLoading);
         }
     }
