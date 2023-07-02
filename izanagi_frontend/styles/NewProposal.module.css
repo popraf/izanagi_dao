@@ -1,0 +1,99 @@
+/* styles/NewProposal.module.css */
+.form__field {
+  padding: 15px;
+  outline: none;
+  border: 1px solid #3a3a43;
+  background-color: transparent;
+  font-family: 'Epilogue', sans-serif;
+  color: white;
+  font-size: 14px;
+  /* placeholder-color: #4b5264; */
+  border-radius: 10px;
+  min-width: 300px;
+}
+
+.form__container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  border-radius: 10px;
+  padding: 4px;
+  margin-left: auto;
+  margin-right: auto;
+  flex: auto;
+  max-width: 1280px;
+  padding-right: 1.25rem;
+  box-sizing: border-box;
+  background-color: #272729;
+}
+
+.form_div_h1 {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 16px;
+  min-width: 380px;
+  background-color: #3a3a43;
+  border-radius: 10px;
+}
+
+.form_h1 {
+  font-family: 'Epilogue', sans-serif;
+  font-weight: bold;
+  font-size: 25px;
+  text-size-adjust: 100%;
+  line-height: 38px;
+  color: white;
+}
+
+.form_onSubmit {
+  width: 100%;
+  margin-top: 65px;
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+}
+
+.form_fields {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 40px;
+}
+
+.form_custom_button_div {
+  justify-content: center;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 40px;
+}
+
+.form_custom_button {
+  font-family: 'Epilogue', sans-serif;
+  font-weight: 600;
+  font-size: 16px;
+  line-height: 26px;
+  color: #ffffff;
+  min-height: 52px;
+  padding-left: 4px;
+  padding-right: 4px;
+  border-radius: 10px;
+  border: 0px;
+  background-color: #3a3a43;
+}
+
+.form_label {
+  flex: 1;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.form_span {
+  font-family: 'Epilogue', sans-serif;
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 22px;
+  color: #808191;
+  margin-bottom: 10px;
+}
