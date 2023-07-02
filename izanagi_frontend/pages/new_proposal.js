@@ -5,6 +5,7 @@ import FormField from "../components/FormField";
 import CustomButton from "../components/CustomButton";
 import { useState } from "react";
 import NewProposalStyles from "../styles/NewProposal.module.css";
+import styles from "../styles/Home.module.css";
 
 const NewProposal = () => {
 
@@ -44,13 +45,11 @@ const NewProposal = () => {
   return(
   <BaseLayout>
     {/* <Loader /> */}
+    <h1 className={styles.title}>Start <a>new campaign</a></h1>
+
     <div className={NewProposalStyles.form__container}>
       {/* {isLoading && <Loader />} */}
-      <div className={NewProposalStyles.form_div_h1}>
-        <h1 className={NewProposalStyles.form_h1}>
-          Start a Campaign
-          </h1>
-      </div>
+
 
       <form onSubmit={handleSubmit}
         className={NewProposalStyles.form_onSubmit}
@@ -80,7 +79,7 @@ const NewProposal = () => {
             handleChange={(e) => handleFormFieldChange('description', e)}
           />
 
-        <div className={NewProposalStyles.form_fields}>
+        <div className={NewProposalStyles.form__field/*form_fields_inline*/}>
           <FormField 
             labelName="Goal *"
             placeholder="ETH 0.50"
