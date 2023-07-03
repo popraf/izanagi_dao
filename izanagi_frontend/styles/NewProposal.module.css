@@ -4,12 +4,14 @@
   outline: none;
   border: 1px solid #3a3a43;
   background-color: transparent;
-  font-family: 'Epilogue', sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
+    Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
   color: white;
   font-size: 14px;
   /* placeholder-color: #4b5264; */
   border-radius: 10px;
   min-width: 300px;
+  resize: none;
 }
 
 .form__container {
@@ -18,13 +20,15 @@
   align-items: center;
   flex-direction: column;
   border-radius: 10px;
-  padding: 15px;
+  padding: 20px;
   margin-left: auto;
   margin-right: auto;
   flex: auto;
   max-width: 1280px;
   box-sizing: border-box;
   background-color: #272729;
+  margin-top: 20px;
+  width: 80%;
 }
 
 .form_div_h1 {
@@ -38,8 +42,8 @@
 }
 
 .form_h1 {
-  font-family: 'Epilogue', sans-serif;
-  font-weight: bold;
+  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
+    Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;  font-weight: bold;
   font-size: 25px;
   text-size-adjust: 100%;
   line-height: 38px;
@@ -68,17 +72,24 @@
 }
 
 .form_custom_button {
-  font-family: 'Epilogue', sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
+    Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;  font-weight: 600;
+  background: transparent;
+  width: 250px;
+  position: inherit;
+  padding: 15px;
+  color: #f213a4;
+  cursor: pointer;
+  text-align: center;
+  text-transform: uppercase;
+  letter-spacing: 3px;
+  transition: all 500ms cubic-bezier(0.6, -0.28, 0.735, 0.045);
+  border-radius: 4px;
   font-weight: 600;
-  font-size: 16px;
-  line-height: 26px;
-  color: #ffffff;
-  min-height: 52px;
-  padding-left: 4px;
-  padding-right: 4px;
-  border-radius: 10px;
-  border: 0px;
-  background-color: #3a3a43;
+  overflow: hidden;
+  border: 2px solid #f213a4;
+  text-decoration: none;
+
 }
 
 .form_label {
@@ -89,8 +100,8 @@
 }
 
 .form_span {
-  font-family: 'Epilogue', sans-serif;
-  font-weight: 500;
+  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
+    Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;  font-weight: 500;
   font-size: 14px;
   line-height: 22px;
   color: #808191;

@@ -13,12 +13,9 @@ const NewProposal = () => {
   const [isLoading, setIsLoading] = useState(false);
   // const { createCampaign } = useStateContext();
   const [form, setForm] = useState({
-    name: '',
-    title: '',
+    address: '',
     description: '',
-    target: '', 
-    deadline: '',
-    image: ''
+    amount: '', 
   });
 
   const handleFormFieldChange = (fieldName, e) => {
@@ -28,90 +25,70 @@ const NewProposal = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    checkIfImage(form.image, async (exists) => {
-      if(exists) {
-        setIsLoading(true)
-        await createCampaign({ ...form, target: ethers.utils.parseUnits(form.target, 18)})
-        setIsLoading(false);
-        // navigate('/');
-      } else {
-        alert('Provide valid image URL')
-        setForm({ ...form, image: '' });
-      }
-    })
+    // checkIfImage(form.image, async (exists) => {
+    //   if(exists) {
+    //     setIsLoading(true)
+    //     await createCampaign({ ...form, target: ethers.utils.parseUnits(form.target, 18)})
+    //     setIsLoading(false);
+    //     // navigate('/');
+    //   } else {
+    //     alert('Provide valid image URL')
+    //     setForm({ ...form, image: '' });
+    //   }
+    // })
   }
 
 
   return(
   <BaseLayout>
     {/* <Loader /> */}
-    <h1 className={styles.title}>Start <a>new campaign</a></h1>
+    <div className={styles.container}>
+      <main className={styles.main}>
+        <h1 className={styles.title}>Start <a>new campaign</a></h1>
 
-    <div className={NewProposalStyles.form__container}>
-      {/* {isLoading && <Loader />} */}
+        <div className={NewProposalStyles.form__container}>
+          {/* {isLoading && <Loader />} */}
 
+          <form onSubmit={handleSubmit} className={NewProposalStyles.form_onSubmit} >
+            <div className={NewProposalStyles.form__field}>
+              <FormField 
+                labelName="Initiative address *"
+                placeholder="Enter initiative address"
+                inputType="text"
+                value={form.address}
+                handleChange={(e) => handleFormFieldChange('address', e)}
+              />
+            </div>
 
-      <form onSubmit={handleSubmit}
-        className={NewProposalStyles.form_onSubmit}
-      >
-        <div className={NewProposalStyles.form__field}>
-          <FormField 
-            labelName="Your Name *"
-            placeholder="Matt Damon"
-            inputType="text"
-            value={form.name}
-            handleChange={(e) => handleFormFieldChange('name', e)}
-          />
-          <FormField 
-            labelName="Campaign Title *"
-            placeholder="Write a title"
-            inputType="text"
-            value={form.title}
-            handleChange={(e) => handleFormFieldChange('title', e)}
-          />
+            <FormField
+                labelName="Description *"
+                placeholder="Describe the initiative"
+                isTextArea
+                value={form.description}
+                handleChange={(e) => handleFormFieldChange('description', e)}
+              />
+
+            <div className={NewProposalStyles.form__field/*form_fields_inline*/}>
+              <FormField 
+                labelName="Amount *"
+                placeholder="MATIC 0.50"
+                inputType="text"
+                value={form.amount}
+                handleChange={(e) => handleFormFieldChange('amount', e)}
+              />
+            </div>
+
+            <div className={NewProposalStyles.form_custom_button_div}>
+              <CustomButton 
+                btnType="submit"
+                title="Submit new campaign"
+              />
+            </div>
+          </form>
         </div>
 
-        <FormField 
-            labelName="Story *"
-            placeholder="Write your story"
-            isTextArea
-            value={form.description}
-            handleChange={(e) => handleFormFieldChange('description', e)}
-          />
-
-        <div className={NewProposalStyles.form__field/*form_fields_inline*/}>
-          <FormField 
-            labelName="Goal *"
-            placeholder="ETH 0.50"
-            inputType="text"
-            value={form.target}
-            handleChange={(e) => handleFormFieldChange('target', e)}
-          />
-          <FormField 
-            labelName="End Date *"
-            placeholder="End Date"
-            inputType="date"
-            value={form.deadline}
-            handleChange={(e) => handleFormFieldChange('deadline', e)}
-          />
-        </div>
-
-        <FormField 
-            labelName="Campaign image *"
-            placeholder="Place image URL of your campaign"
-            inputType="url"
-            value={form.image}
-            handleChange={(e) => handleFormFieldChange('image', e)}
-          />
-
-          <div className={NewProposalStyles.form_custom_button_div}>
-            <CustomButton 
-              btnType="submit"
-              title="Submit new campaign"
-            />
-          </div>
-      </form>
-    </div>  
+      </main>
+    </div>
   </BaseLayout>
   );
 };
