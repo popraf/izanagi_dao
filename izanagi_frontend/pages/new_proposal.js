@@ -71,8 +71,8 @@ const NewProposal = () => {
             <div className={NewProposalStyles.form__field/*form_fields_inline*/}>
               <FormField 
                 labelName="Amount *"
-                placeholder="MATIC 0.50"
-                inputType="text"
+                placeholder="MATIC"
+                inputType="number"
                 value={form.amount}
                 handleChange={(e) => handleFormFieldChange('amount', e)}
               />

@@ -115,6 +115,7 @@ contract IzanagiDAO is ReentrancyGuard, AccessControl {
         emit ContributionReceived(msg.sender, msg.value);
     }
 
+// TODO: This should be checked by selection of msg sender amount
     function makeStakeholder(uint256 amount) external {
         address account = msg.sender;
         uint256 amountContributed = amount;
