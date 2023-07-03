@@ -35,6 +35,7 @@ contract IzanagiDAO is ReentrancyGuard, AccessControl {
     mapping(uint256 => InitiativeProposal) private initiativeProposals;
     mapping(address => uint256[]) private stakeholderVotes;
     mapping(address => uint256) private shares;
+    uint256 private ownerShares;
 
     // Contract events
     event ContributionReceived(address indexed fromAddress, uint256 amount);
@@ -67,20 +68,23 @@ contract IzanagiDAO is ReentrancyGuard, AccessControl {
     }
 
     // Functions
-    function createProposal(string calldata description, address initiativeAddress, uint256 amount) external onlyStakeholder("Only stakeholders are allowed to create proposals") {
+    function createProposal(string calldata description, address initiativeAddress) payable external onlyStakeholder("Only stakeholders are allowed to create proposals") {
+        require(msg.value>0, "Invalid amount");
+
         uint256 proposalId = numOfProposals++;
         InitiativeProposal storage proposal = initiativeProposals[proposalId];
         proposal.id = proposalId;
         proposal.proposer = payable(msg.sender);
         proposal.description = description;
         proposal.initiativeAddress = payable(initiativeAddress);
-        proposal.amount = amount;
+        proposal.amount = msg.value;
         proposal.livePeriod = block.timestamp + minimumVotingPeriod;
 
-        emit NewInitiativeProposal(msg.sender, amount);
+        emit NewInitiativeProposal(msg.sender, msg.value);
     }
 
     function vote(uint256 proposalId, bool supportProposal) external onlyStakeholder("Only stakeholders are allowed to vote") {
+        require(proposalId <= numOfProposals, "Invalid proposal ID");
         InitiativeProposal storage initiativeProposal = initiativeProposals[proposalId];
 
         votable(initiativeProposal);
@@ -134,7 +138,8 @@ contract IzanagiDAO is ReentrancyGuard, AccessControl {
 
         emit PaymentTransfered(msg.sender, initiativeProposal.initiativeAddress, initiativeProposal.amount);
 
-        return initiativeProposal.initiativeAddress.transfer(initiativeProposal.amount);
+        return initiativeProposal.initiativeAddress.call{value: initiativeProposal.amount}("");
+        //transfer(initiativeProposal.amount);
     }
 
     function cancelInitiative(uint256 _proposalId) external {
@@ -158,7 +163,8 @@ contract IzanagiDAO is ReentrancyGuard, AccessControl {
         initiativeProposal.paidBy = msg.sender;
 
         emit PaymentTransfered(msg.sender, initiativeProposal.proposer, initiativeProposal.amount);
-        return initiativeProposal.proposer.transfer(initiativeProposal.amount);
+        return initiativeProposal.proposer.call{value: initiativeProposal.amount}("");
+        //transfer(initiativeProposal.amount);
     }
 
     function checkStakeholderStatus(address _address) private returns (bool success) {
@@ -180,15 +186,18 @@ contract IzanagiDAO is ReentrancyGuard, AccessControl {
     function buyShares() external payable returns (bool success) {
         require(msg.value > 0, "Not enough MATIC on account balance or MATIC not sent.");
         shares[msg.sender] += msg.value;
+        ownerShares += msg.value;
         emit BuyShares(msg.sender, msg.value);
         return true;
     }
 
     function ownerWithdrawShares() external onlyOwner {
-        uint256 ownerBalance = address(this).balance;
-        require(ownerBalance > 0, "No MATIC present in Vendor");
-        (bool sent,) = msg.sender.call{value: address(this).balance}("");
+        // uint256 ownerBalance = address(this).balance;
+        uint256 ownerBalance = ownerShares;
+        require(ownerBalance > 0, "No MATIC present in Vendor for owner");
+        (bool sent,) = msg.sender.call{value: ownerBalance}("");
         require(sent, "Failed to withdraw");
+        ownerShares = 0;
     }
 
     function getProposals() public view returns (InitiativeProposal[] memory props) {
