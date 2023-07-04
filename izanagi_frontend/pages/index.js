@@ -1,7 +1,7 @@
 import { ConnectWallet } from "@thirdweb-dev/react";
 import styles from "../styles/Home.module.css";
 import BaseLayout from "../components/BaseLayout";
-
+import Link from 'next/link'
 
 export default function Home() {
   return (
@@ -21,23 +21,23 @@ export default function Home() {
         </div>
 
         <div className={styles.grid}>
-          <a href="/about" className={styles.card}>
+          <Link href="/about" className={styles.card}>
             <h2>About &rarr;</h2>
             <p>
               Learn more about decentralized nature of the project, enabling
               individuals to work towards common social objectives.
             </p>
-          </a>
+          </Link>
 
-          <a href="/proposals" className={styles.card}>
+          <Link href="/proposals" className={styles.card}>
             <h2>Proposals &rarr;</h2>
             <p>
             
             Vote to allocate resources and financial support to the selected projects, enabling them to come to fruition.
             </p>
-          </a>
+          </Link>
 
-          <a
+          <Link
             href="/new_proposal"
             className={styles.card}
           >
@@ -46,7 +46,7 @@ export default function Home() {
               Submit project ideas and initiatives for funding,
               fostering a collective effort to address societal challenges. 
             </p>
-          </a>
+          </Link>
         </div>
       </main>
     </div>

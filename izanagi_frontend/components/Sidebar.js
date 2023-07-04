@@ -1,4 +1,5 @@
 import { useAddress } from "@thirdweb-dev/react";
+import Link from 'next/link'
 const Image = require("next/image");
 const { AiOutlineHome, AiOutlineInfoCircle, AiOutlineLogout, AiOutlineWallet } = require("react-icons/ai");
 const { BsPeople, BsMegaphone, BsBoxes } = require("react-icons/bs");
@@ -7,7 +8,6 @@ const { FiMail } = require("react-icons/fi");
 const { CgProfile } = require("react-icons/cg");
 const { FaHandsHelping } = require("react-icons/fa");
 const { MdKeyboardArrowLeft, MdKeyboardArrowRight } = require("react-icons/md");
-const Link = require("next/link");
 const { useContext } = require("react");
 const { SidebarContext } = require("../context/SidebarContext");
 const { useRouter } = require("next/router");
