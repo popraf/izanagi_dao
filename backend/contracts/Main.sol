@@ -15,6 +15,8 @@ contract IzanagiDAO is ReentrancyGuard, AccessControl {
     bytes32 public constant STAKEHOLDER_ROLE = keccak256("STAKEHOLDER");
     uint32 constant minimumVotingPeriod = 1 weeks;
     uint256 numOfProposals; // Total
+    uint256 private ownerShares;
+    address public owner;
     // uint256 votePrice = 100000000000000000; // In WEI, 0.1ETH
 
     // Contract core data
@@ -35,7 +37,6 @@ contract IzanagiDAO is ReentrancyGuard, AccessControl {
     mapping(uint256 => InitiativeProposal) private initiativeProposals;
     mapping(address => uint256[]) private stakeholderVotes;
     mapping(address => uint256) private shares;
-    uint256 private ownerShares;
 
     // Contract events
     event ContributionReceived(address indexed fromAddress, uint256 amount);
@@ -46,18 +47,15 @@ contract IzanagiDAO is ReentrancyGuard, AccessControl {
         uint256 amount
     );
     event BuyShares(address _buyer, uint256 _amountOfMATIC);
+    event AccountStatusChange(address _address);
 
     // Contract modifiers
     modifier onlyStakeholder(string memory message) {
-        (bool checked) = checkStakeholderStatus(msg.sender);
-        require(checked, "Failed to check account status");
         require(hasRole(STAKEHOLDER_ROLE, msg.sender), message);
         _;
     }
 
     modifier onlyContributor(string memory message) {
-        (bool checked) = checkStakeholderStatus(msg.sender);
-        require(checked, "Failed to check account status");
         require(hasRole(CONTRIBUTOR_ROLE, msg.sender), message);
         _;
     }
@@ -114,7 +112,7 @@ contract IzanagiDAO is ReentrancyGuard, AccessControl {
         }
     }
 
-    function payInitiative(uint256 _proposalId) external onlyStakeholder("Only stakeholders are allowed to make payments") {
+    function payInitiative(uint256 _proposalId) external onlyStakeholder("Only stakeholders are allowed to make payments") returns(bool success) {
         InitiativeProposal storage initiativeProposal = initiativeProposals[_proposalId];
 
         if (initiativeProposal.votingPassed || initiativeProposal.livePeriod <= block.timestamp) {
@@ -135,14 +133,15 @@ contract IzanagiDAO is ReentrancyGuard, AccessControl {
 
         initiativeProposal.paid = true;
         initiativeProposal.paidBy = msg.sender;
-
+        
+        (bool sent,) = initiativeProposal.initiativeAddress.call{value: initiativeProposal.amount}("");
+        require(sent, "Failed to transfer");
         emit PaymentTransfered(msg.sender, initiativeProposal.initiativeAddress, initiativeProposal.amount);
 
-        return initiativeProposal.initiativeAddress.call{value: initiativeProposal.amount}("");
-        //transfer(initiativeProposal.amount);
+        return true;
     }
 
-    function cancelInitiative(uint256 _proposalId) external {
+    function cancelInitiative(uint256 _proposalId) external returns(bool success) {
         InitiativeProposal storage initiativeProposal = initiativeProposals[_proposalId];
 
         if (initiativeProposal.votingPassed || initiativeProposal.livePeriod <= block.timestamp) {
@@ -162,9 +161,11 @@ contract IzanagiDAO is ReentrancyGuard, AccessControl {
         initiativeProposal.paid = true;
         initiativeProposal.paidBy = msg.sender;
 
+        (bool sent,) = initiativeProposal.proposer.call{value: initiativeProposal.amount}("");
+        require(sent, "Failed to transfer");
         emit PaymentTransfered(msg.sender, initiativeProposal.proposer, initiativeProposal.amount);
-        return initiativeProposal.proposer.call{value: initiativeProposal.amount}("");
-        //transfer(initiativeProposal.amount);
+        
+        return true; 
     }
 
     function checkStakeholderStatus(address _address) private returns (bool success) {
@@ -179,7 +180,7 @@ contract IzanagiDAO is ReentrancyGuard, AccessControl {
                 _setupRole(CONTRIBUTOR_ROLE, _address);
             }
         }
-
+        emit AccountStatusChange(_address);
         return true;
     }
 
@@ -187,6 +188,8 @@ contract IzanagiDAO is ReentrancyGuard, AccessControl {
         require(msg.value > 0, "Not enough MATIC on account balance or MATIC not sent.");
         shares[msg.sender] += msg.value;
         ownerShares += msg.value;
+        (bool checked) = checkStakeholderStatus(msg.sender);
+        require(checked, "Failed to check account status");
         emit BuyShares(msg.sender, msg.value);
         return true;
     }
@@ -221,7 +224,7 @@ contract IzanagiDAO is ReentrancyGuard, AccessControl {
     }
 
     function isStakeholder() public view returns (bool) {
-        return stakeholders[msg.sender] > 0;
+        return shares[msg.sender] > 5 ether;
     }
 
     function isContributor() public view returns (bool) {

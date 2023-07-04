@@ -60,38 +60,6 @@ const Profile = () => {
               </form>
             </div>
 
-            <div className={NewProposalStyles.form__container}>
-              <h3>Contributed at least 5 MATIC already?</h3>
-              <form onSubmit={handleSubmitStakeholder} className={NewProposalStyles.form_onSubmit} >
-                <CustomButton 
-                      btnType="submit"
-                      title="BECOME STAKEHOLDER"
-                    />
-              </form>
-            </div>
-
-            <div className={NewProposalStyles.form__container}>
-              <h3>Withdraw</h3>
-              <form onSubmit={handleSubmitStakeholder} className={NewProposalStyles.form_onSubmit} >
-                
-              <div className={NewProposalStyles.form__field/*form_fields_inline*/}>
-                  <FormField 
-                    labelName="Amount *"
-                    placeholder="MATIC"
-                    inputType="number"
-                    value={form.amount}
-                    handleChange={(e) => handleFormFieldChange('amount', e)}
-                  />
-                </div>
-                <div className={NewProposalStyles.form_custom_button_div}>
-                    <CustomButton 
-                      btnType="submit"
-                      title="Withdraw"
-                    />
-                    </div>
-              </form>
-            </div>
-
           </div>
 
         <h2 className={ProfileStyles.subtitle}>Account Details</h2>
