@@ -49,7 +49,7 @@ body {
 }
 
 .sidebar__wrapper {
-  position: fixed;
+  position: relative;
   height: 100%;
 }
 
@@ -144,7 +144,8 @@ body {
 .customConnectButton {
   color: #a09ea0 !important;
   background-color: var(--color-sidebar-item) !important;
-  height: 5vh !important;
+  height: 55px !important;
+  width: 20vh !important;
 }
 
 .navbar__list {
@@ -167,4 +168,16 @@ body {
 .navigation__wrapper {
   position: absolute;
   width: 100%;
+}
+
+.nav__li {
+  display: grid;
+  padding: 0;
+  margin: 0;
+  list-style: none;
+  box-sizing: border-box;
+  position: fixed;
+  width: 95%;
+  justify-content: right;
+  margin-top: 2vh;
 }

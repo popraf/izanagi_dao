@@ -11,6 +11,7 @@ const { MdKeyboardArrowLeft, MdKeyboardArrowRight } = require("react-icons/md");
 const { useContext } = require("react");
 const { SidebarContext } = require("../context/SidebarContext");
 const { useRouter } = require("next/router");
+const { ConnectWallet } = require("@thirdweb-dev/react");
 
 const sidebarItemsAll = [
   {
@@ -49,6 +50,10 @@ const Sidebar = () => {
   const { isCollapsed, toggleSidebarcollapse } = useContext(SidebarContext);
 
   return (
+    <nav>
+      <li className="nav__li">
+        <ConnectWallet className="customConnectButton"/>
+      </li>
     <div className="sidebar__wrapper">
       <button className="btn" onClick={toggleSidebarcollapse}>
         {isCollapsed ? <MdKeyboardArrowRight /> : <MdKeyboardArrowLeft />}
@@ -95,9 +100,13 @@ const Sidebar = () => {
           }))
           :""
           }
+          {/* <li className="sidebar__item">
+            <ConnectWallet className="customConnectButton"/>
+          </li> */}
         </ul>
       </aside>
     </div>
+    </nav>
   );
 };
 

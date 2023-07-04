@@ -1,17 +1,14 @@
 import Sidebar from "./Sidebar";
-import Navbar from "./Navbar";
+const { ConnectWallet } = require("@thirdweb-dev/react");
 
 const BaseLayout = ({ children }) => {
   return (
-    <main className="layout">
-      <div className="navigation__wrapper">
+    <div className="layout">
         <Sidebar />
-        <Navbar />
-      </div>
-      <div className="layout__main-content">
+      <main className="layout__main-content">
           {children}
-      </div>
-    </main>
+      </main>
+    </div>
   );
 };
 
