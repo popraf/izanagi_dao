@@ -70,7 +70,7 @@ const Profile = () => {
             </a>
 
             <a className={ProfileStyles.card}>
-              <h2>Balance</h2>
+              <h2>Shares</h2>
               <p>123 MATIC</p>
             </a>
 
