@@ -76,6 +76,13 @@ const About = () => {
             innovation and creating a positive impact on communities and the world at large.
         </div>
 
+        <h2>How does it work</h2>
+        <div className={styles.grid_text}>
+            Contribute at least 5 MATIC to become a stakeholder. Only stakeholder can create 
+            new proposals. Contribute any amount to become a project contributor. Contributors can
+            upvote or downvote proposals.
+        </div>
+
       </main>
     </div>
 

@@ -14,9 +14,7 @@ const Navbar = () => {
             </ul>
 
             <div className="navbar__wallet">
-                <ul>
                     <ConnectWallet className="customConnectButton"/>
-                </ul>
             </div>
 
     </nav>

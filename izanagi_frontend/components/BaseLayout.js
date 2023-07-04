@@ -3,13 +3,15 @@ import Navbar from "./Navbar";
 
 const BaseLayout = ({ children }) => {
   return (
-    <div className="layout">
-      <Sidebar />
-      <main className="layout__main-content">
-          <Navbar />
+    <main className="layout">
+      <div className="navigation__wrapper">
+        <Sidebar />
+        <Navbar />
+      </div>
+      <div className="layout__main-content">
           {children}
-      </main>
-    </div>
+      </div>
+    </main>
   );
 };
 
