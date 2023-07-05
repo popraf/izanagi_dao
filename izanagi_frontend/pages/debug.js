@@ -11,6 +11,9 @@ import {
 import { SignerWallet } from "@thirdweb-dev/auth/evm";
 import { ethers } from "ethers";
 import ExampleCall from "../utils/exampleContractViewCall";
+import GetBalance from "../utils/getBalance";
+import IsStakeholder from "../utils/isStakeholder";
+import IsContributor from "../utils/isContributor";
 
 const Debug = () => {
 
@@ -19,7 +22,10 @@ const Debug = () => {
         <h1>Debug</h1>
         
         <h1>DEBUG CONTRACT FUNCTIONS</h1>
-      <ExampleCall />
+      {/* <ExampleCall /> */}
+      <GetBalance />
+      <IsStakeholder />
+      <IsContributor />
   </BaseLayout>
   );
 };

@@ -1,11 +1,14 @@
 import { useRouter } from 'next/router';
-import { useEffect } from 'react';
+import { useEffect, useContext } from 'react';
 // import { useSession } from 'next-auth/client';
-import { useAddress } from "@thirdweb-dev/react";
+// import { useAddress } from "@thirdweb-dev/react";
+import { AddressContext } from '../context/AddressContext';
 
 const withAuth = (WrappedComponent) => {
   return (props) => {
-    const address = useAddress();
+
+    // const address = useAddress();
+    const address = useContext(AddressContext);
     const router = useRouter();
 
     useEffect(() => {
