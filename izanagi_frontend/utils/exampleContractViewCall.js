@@ -13,7 +13,7 @@ const ExampleCall = () => {
         contract_abi.abi
     );
 
-    const { data, _isLoading, _error } = useContractRead(contract,'getProposals');
+    const { data, _isLoading, _error } = useContractRead(contract,'getBalance');
 
     function _getProposals() {
         console.log(isLoading);

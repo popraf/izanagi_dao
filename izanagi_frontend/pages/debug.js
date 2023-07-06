@@ -1,31 +1,32 @@
 import BaseLayout from "../components/BaseLayout";
-import { useContext } from "react";
-import { PrivateKeyWallet } from "@thirdweb-dev/auth/evm";
-import {
-    useAddress,
-    useMetamask,
-    useLogin,
-    useLogout,
-    useUser,
-  } from "@thirdweb-dev/react";
-import { SignerWallet } from "@thirdweb-dev/auth/evm";
-import { ethers } from "ethers";
+import { useContext, useEffect, useState } from "react";
+// import { getBalance } from "../utils/contractViews";
+import { useContractRead, useContract } from "@thirdweb-dev/react";
+import contract_abi from "../utils/ContractABI.json";
+import { AddressContext } from "../context/AddressContext";
 import ExampleCall from "../utils/exampleContractViewCall";
-import GetBalance from "../utils/getBalance";
-import IsStakeholder from "../utils/isStakeholder";
-import IsContributor from "../utils/isContributor";
+import { ethers, utils } from "ethers";
+import { ContractViewsContext } from "../context/ContractViewsContext";
 
 const Debug = () => {
+    const {userBalance,
+      isStakeholder,
+      isContributor,
+      getStakeholderVotes,
+      getProposals
+    } = useContext(ContractViewsContext);
 
   return(
   <BaseLayout>
         <h1>Debug</h1>
         
         <h1>DEBUG CONTRACT FUNCTIONS</h1>
-      {/* <ExampleCall /> */}
-      <GetBalance />
-      <IsStakeholder />
-      <IsContributor />
+        <li>userBalance: {userBalance}</li>
+        <li>isStakeholder: {isStakeholder}</li>
+        <li>isContributor: {isContributor}</li>
+        <li>getStakeholderVotes: {getStakeholderVotes}</li>
+        <li>getProposals: {getProposals}</li>
+
   </BaseLayout>
   );
 };

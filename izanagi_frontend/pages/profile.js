@@ -4,13 +4,13 @@ import ProfileStyles from "../styles/Profile.module.css";
 import FormField from "../components/FormField";
 import styles from "../styles/Home.module.css";
 import NewProposalStyles from "../styles/NewProposal.module.css";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import CustomButton from "../components/CustomButton";
 
 const Profile = () => {
 
   const [isLoading, setIsLoading] = useState(false);
-  // const { createCampaign } = useStateContext();
+
   const [form, setForm] = useState({
     amount: '', 
   });
