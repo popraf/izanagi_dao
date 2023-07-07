@@ -1,17 +1,16 @@
 import { ethers } from "ethers";
 
-
-const buyShares = async (_senderAddress, _contract, _amount) => {
+const SubmitProposal = async (_senderAddress, _contract, _description, _initiativeAddress, _amount) => {
 
     if(_senderAddress && _contract) {
         try {
             await _contract.call(
-                "buyShares",
-                [],
+                "createProposal",
+                [_description, _initiativeAddress],
                 {
                     gasLimit: 1000000,
                     value: ethers.utils.parseEther(_amount),
-                    from: _senderAddress
+                    from: _senderAddress, 
                 }
             )    
         } catch (error) {
@@ -20,4 +19,4 @@ const buyShares = async (_senderAddress, _contract, _amount) => {
     }
 }
 
-export default buyShares;
+export default SubmitProposal;

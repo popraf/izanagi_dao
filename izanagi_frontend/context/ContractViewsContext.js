@@ -21,7 +21,7 @@ const ContractViewsProvider = ({ children }) => {
         } else if ((getBalanceData === undefined) || getBalanceError) {
             userBalance = 'Error fetching price';
         } else {
-            userBalance = getBalanceData.toString() === '0' ? '0 MATIC Contributed' : `Address ${address}: ${utils.formatEther(getBalanceData)} MATIC`;
+            userBalance = getBalanceData.toString() === '0' ? '0 MATIC Contributed' : `${utils.formatEther(getBalanceData)} MATIC Contributed`;
         }    
     }
 
@@ -66,7 +66,6 @@ const ContractViewsProvider = ({ children }) => {
             userStatus = 'Error fetching the data';
           }      
     }
-    console.log('address:', address, 'contract:', contract, 'isStakeholderData:',isStakeholderData,'getBalanceData',getBalanceData);
 
     // Variables passed into provider, making them available across wrapped elements in app
     const propsValues = {

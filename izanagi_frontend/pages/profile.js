@@ -34,7 +34,7 @@ const Profile = () => {
 
   // // getStakeholderVotes view:
   let getStakeholderVotes = 'You are not a stakeholder. Contribution of at least 5 MATIC enables voting.';
-  const { data: getStakeholderVotesData, isLoading: getStakeholderVotesIsLoading, error: getStakeholderVotesError } = useContractRead(contract,'getStakeholderVotes', {from:address});
+  const { data: getStakeholderVotesData, isLoading: getStakeholderVotesIsLoading, error: getStakeholderVotesError } = useContractRead(contract,'getStakeholderVotes',[], {from:address});
 
   if (address && isStakeholder == true) {
     if (getStakeholderVotesIsLoading) {
