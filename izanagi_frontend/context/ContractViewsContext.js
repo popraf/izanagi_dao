@@ -8,12 +8,14 @@ const ContractViewsContext = createContext({});
 const ContractViewsProvider = ({ children }) => {
     const {address, contract} = useContext(AddressContext);
 
+    const { data: getBalanceData, isLoading: getBalanceIsLoading, error: getBalanceError } = useContractRead(contract,'getBalance');
+    const { data: isStakeholderData, isLoading: isStakeholderIsLoading, error: isStakeholderError } = useContractRead(contract,'isStakeholder');
+    const { data: isContributorData, isLoading: isContributorIsLoading, error: isContributorError } = useContractRead(contract,'isContributor');
+    
     // getBalance view function:
     let userBalance = 'N/A';
 
     if (address) {
-        const { data: getBalanceData, isLoading: getBalanceIsLoading, error: getBalanceError } = useContractRead(contract,'getBalance');
-    
         if (getBalanceIsLoading) {
             userBalance = 'Loading...';
         } else if ((getBalanceData === undefined) || getBalanceError) {
@@ -27,8 +29,6 @@ const ContractViewsProvider = ({ children }) => {
     let isStakeholder = 'N/A';
 
     if (address) {
-        const { data: isStakeholderData, isLoading: isStakeholderIsLoading, error: isStakeholderError } = useContractRead(contract,'isStakeholder');
-    
         if (isStakeholderIsLoading) {
             isStakeholder = 'Loading...';
         } else if ((isStakeholderData === undefined) || isStakeholderError) {
@@ -43,8 +43,6 @@ const ContractViewsProvider = ({ children }) => {
     let isContributor = 'N/A';
 
     if (address) {
-        const { data: isContributorData, isLoading: isContributorIsLoading, error: isContributorError } = useContractRead(contract,'isContributor');
-
         if (isContributorIsLoading) {
             isContributor = 'Loading...';
         } else if ((isContributorData === undefined) || isContributorError) {
