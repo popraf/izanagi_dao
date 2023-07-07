@@ -1,4 +1,4 @@
-import { createContext, useContext } from "react";
+import { createContext, useContext, useEffect } from "react";
 import { useContractRead } from "@thirdweb-dev/react";
 import { AddressContext } from "./AddressContext";
 import { ethers, utils } from "ethers";
@@ -6,69 +6,69 @@ import { ethers, utils } from "ethers";
 const ContractViewsContext = createContext({});
 
 const ContractViewsProvider = ({ children }) => {
-    const {contract} = useContext(AddressContext);
+    const {address, contract} = useContext(AddressContext);
 
     // getBalance view function:
-    const { data: getBalanceData, isLoading: getBalanceIsLoading, error: getBalanceError } = useContractRead(contract,'getBalance');
-    let userBalance;
+    let userBalance = 'N/A';
 
-    if (getBalanceIsLoading) {
-        userBalance = 'Loading...';
-    } else if ((getBalanceData === undefined) || getBalanceError) {
-        userBalance = 'Error fetching price';
-    } else {
-        userBalance = getBalanceData.toString() === '0' ? 'Free' : `${utils.formatEther(getBalanceData)} MATIC`;
+    if (address) {
+        const { data: getBalanceData, isLoading: getBalanceIsLoading, error: getBalanceError } = useContractRead(contract,'getBalance');
+    
+        if (getBalanceIsLoading) {
+            userBalance = 'Loading...';
+        } else if ((getBalanceData === undefined) || getBalanceError) {
+            userBalance = 'Error fetching price';
+        } else {
+            userBalance = getBalanceData.toString() === '0' ? '0 MATIC Contributed' : `${utils.formatEther(getBalanceData)} MATIC`;
+        }    
     }
 
     // isStakeholder view:
-    const { data: isStakeholderData, isLoading: isStakeholderIsLoading, error: isStakeholderError } = useContractRead(contract,'isStakeholder');
-    let isStakeholder;
+    let isStakeholder = 'N/A';
 
-    if (isStakeholderIsLoading) {
-        isStakeholder = 'Loading...';
-    } else if ((isStakeholderData === undefined) || isStakeholderError) {
-        isStakeholder = 'Error fetching isStakeholder';
-    } else {
-        console.log('isStakeholderData:', isStakeholderData);
-        isStakeholder = isStakeholderData.toString() === '0' ? false : true;
+    if (address) {
+        const { data: isStakeholderData, isLoading: isStakeholderIsLoading, error: isStakeholderError } = useContractRead(contract,'isStakeholder');
+    
+        if (isStakeholderIsLoading) {
+            isStakeholder = 'Loading...';
+        } else if ((isStakeholderData === undefined) || isStakeholderError) {
+            isStakeholder = 'Error fetching isStakeholder';
+        } else {
+            // console.log('isStakeholderData:', isStakeholderData);
+            isStakeholder = isStakeholderData;
+        }    
     }
 
     // isContributor view:
-    const { data: isContributorData, isLoading: isContributorIsLoading, error: isContributorError } = useContractRead(contract,'isContributor');
-    let isContributor;
+    let isContributor = 'N/A';
 
-    if (isContributorIsLoading) {
-        isContributor = 'Loading...';
-    } else if ((isContributorData === undefined) || isContributorError) {
-        isContributor = 'Error fetching isContributor';
-    } else {
-        isContributor = isContributorData.toString() === '0' ? false : true;
+    if (address) {
+        const { data: isContributorData, isLoading: isContributorIsLoading, error: isContributorError } = useContractRead(contract,'isContributor');
+
+        if (isContributorIsLoading) {
+            isContributor = 'Loading...';
+        } else if ((isContributorData === undefined) || isContributorError) {
+            isContributor = 'Error fetching isContributor';
+        } else {
+            isContributor = isContributorData;
+        }
     }
 
     // getStakeholderVotes view:
-    const { data: getStakeholderVotesData, isLoading: getStakeholderVotesIsLoading, error: getStakeholderVotesError } = useContractRead(contract,'getStakeholderVotes');
-    let getStakeholderVotes;
+    let getStakeholderVotes = 'You are not a stakeholder. Contribution of at least 5 MATIC enables voting.';
 
-    if (getStakeholderVotesIsLoading) {
-        getStakeholderVotes = 'Loading...';
-    } else if (getStakeholderVotesError.reason == "User is not a stakeholder") {
-        getStakeholderVotes = "You are not a stakeholder. Please contribute to project at least 5 MATIC."
-    } else if ((getStakeholderVotesData === undefined) || getStakeholderVotesError) {
-        getStakeholderVotes = 'Error fetching getStakeholderVotes';
-    } else {
-        getStakeholderVotes = getStakeholderVotesData;
-    }
+    if (address && isStakeholder == true) {
+        const { data: getStakeholderVotesData, isLoading: getStakeholderVotesIsLoading, error: getStakeholderVotesError } = useContractRead(contract,'getStakeholderVotes');
 
-    // getProposals view:
-    const { data: getProposalsData, isLoading: getProposalsIsLoading, error: getProposalsError } = useContractRead(contract,'getProposals');
-    let getProposals;
-
-    if (getProposalsIsLoading) {
-        getProposals = 'Loading...';
-    } else if ((getProposalsData === undefined) || getProposalsError) {
-        getProposals = 'Error fetching getProposals';
-    } else {
-        getProposals = getProposalsData;
+        if (getStakeholderVotesIsLoading) {
+            getStakeholderVotes = 'Loading...';
+        } else if (getStakeholderVotesError.reason == "User is not a stakeholder") {
+            getStakeholderVotes = "You are not a stakeholder. Contribution of at least 5 MATIC enables voting."
+        } else if ((getStakeholderVotesData === undefined) || getStakeholderVotesError) {
+            getStakeholderVotes = 'Error fetching getStakeholderVotes';
+        } else {
+            getStakeholderVotes = getStakeholderVotesData;
+        }
     }
 
     // Variables passed into provider, making them available across wrapped elements in app
@@ -76,8 +76,7 @@ const ContractViewsProvider = ({ children }) => {
         userBalance,
         isStakeholder,
         isContributor,
-        getStakeholderVotes,
-        getProposals
+        getStakeholderVotes
     }
   
     return (

@@ -24,6 +24,7 @@ const FormField = ({ labelName, placeholder, inputType, isTextArea, value, handl
           onChange={handleChange}
           type={inputType}
           step="0.1"
+          min="0"
           placeholder={placeholder}
           className={NewProposalStyles.form__field}
           />

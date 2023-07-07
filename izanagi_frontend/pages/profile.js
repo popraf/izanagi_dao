@@ -6,10 +6,17 @@ import styles from "../styles/Home.module.css";
 import NewProposalStyles from "../styles/NewProposal.module.css";
 import { useContext, useState } from "react";
 import CustomButton from "../components/CustomButton";
+import { ContractViewsContext } from "../context/ContractViewsContext";
+import { useSDK } from "@thirdweb-dev/react";
 
 const Profile = () => {
-
+  const {userBalance,
+    isStakeholder,
+    isContributor,
+    getStakeholderVotes
+  } = useContext(ContractViewsContext);
   const [isLoading, setIsLoading] = useState(false);
+  const sdk = useSDK();
 
   const [form, setForm] = useState({
     amount: '', 
@@ -21,27 +28,33 @@ const Profile = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    const message = `Sign me! (${form.amount} MATIC)`;
   }
 
-  const handleSubmitStakeholder = async (e) => {
-    e.preventDefault();
+  let userStatus;
+  if (!isContributor) {
+    userStatus = 'Standard';
+  } else if (isContributor && isStakeholder) {
+    userStatus = 'Stakeholder';
+  } else if (isContributor && !isStakeholder){
+    userStatus = 'Contributor';
+  } else {
+    userStatus = 'Error fetching the data';
   }
 
   return(
     <BaseLayout>
-    {/* <div className={styles.container}> */}
 
       <main className={ProfileStyles.main}>
         <h1 className={ProfileStyles.title}>Profile</h1>
 
-        {/* <h2 className={ProfileStyles.subtitle}>Contribution to the project</h2> */}
           <div className={ProfileStyles.grid}>
 
             <div className={NewProposalStyles.form__container}>
               {/* {isLoading && <Loader />} */}
               <form onSubmit={handleSubmit} className={NewProposalStyles.form_onSubmit} >
-              <h3>Contribute to the project</h3>
- <div className={NewProposalStyles.form__field/*form_fields_inline*/}>
+                <h3>Contribute to the project</h3>
+                <div className={NewProposalStyles.form__field/*form_fields_inline*/}>
                   <FormField 
                     labelName="Amount *"
                     placeholder="MATIC"
@@ -66,18 +79,17 @@ const Profile = () => {
           <div className={ProfileStyles.grid}>
             <a className={ProfileStyles.card}>
               <h2>Account Status</h2>
-              <p>Contributor</p>
+              <p>{userStatus}</p>
             </a>
 
             <a className={ProfileStyles.card}>
               <h2>Shares</h2>
-              <p>123 MATIC</p>
+              <p>{userBalance}</p>
             </a>
 
             <a className={ProfileStyles.card}>
               <h2>Total Votes</h2>
-              <p>Account is not stakeholder.</p>
-              <p> Contribute at least 5 MATIC to become one.</p>
+              <p>{getStakeholderVotes}</p>
             </a>
           </div>
 
@@ -85,47 +97,21 @@ const Profile = () => {
           <div className={ProfileStyles.grid}>
             <a className={ProfileStyles.card}>
               <h2>Proposal 1</h2>
-              <p>Proposal 1 Description</p>
+              <p>dummy Proposal 1 Description</p>
             </a>
 
             <a className={ProfileStyles.card}>
               <h2>Proposal 2</h2>
-              <p>Proposal 2 Description</p>
+              <p>dummy Proposal 2 Description</p>
             </a>
 
             <a className={ProfileStyles.card}>
               <h2>Proposal 3</h2>
-              <p>Proposal 3 Description</p>
+              <p>dummy Proposal 3 Description</p>
             </a>
-          </div>
-
-        <h2 className={ProfileStyles.subtitle}>Manage Submitted Proposals</h2>
-          <div className={ProfileStyles.grid}>
-            <a className={ProfileStyles.card}>
-              <h2>Withdraw</h2>
-              <p>Proposal 1 Description</p>
-            </a>
-
-            <a className={ProfileStyles.card}>
-              <h2>Proposal 3</h2>
-              <p>Proposal 3 Description</p>
-            </a>
-          </div>
-
-        <h3>User Details</h3>
-          <div>
-            <h5>known statuses, functions</h5>
-            <p>Status/is stakeholder, is contributor</p>
-            <p>Total contributed</p>
-            <p>Become stakeholder</p>
-            <p>Get stakeholder votes</p>
-            <p>Get stakeholder balance, get contributor balance</p>
-            <p>User proposals</p>
           </div>
 
       </main>
-
-    {/* </div> */}
 
   </BaseLayout>
   );

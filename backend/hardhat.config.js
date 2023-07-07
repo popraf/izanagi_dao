@@ -1,6 +1,6 @@
 require('dotenv').config();
 require("@nomicfoundation/hardhat-toolbox");
-const { privateKey, polygonMumbaiRPC } = require('./.env.json');
+const { privateKey, polygonMumbaiRPC, privateKeyLocalhost } = require('./.env.json');
 
 /** @type import('hardhat/config').HardhatUserConfig */
 module.exports = {
@@ -24,6 +24,7 @@ module.exports = {
 
     localhost: {
       url: "http://127.0.0.1:8545",
+      accounts: [privateKeyLocalhost],
     },
   },
 

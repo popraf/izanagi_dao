@@ -11,3 +11,4 @@ backend/.env.json
 backend/contract-address.txt
 izanagi_frontend/.env
 izanagi_frontend/.env.json
+backend/contract-address-mumbai.txt
