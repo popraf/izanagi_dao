@@ -4,19 +4,20 @@ import ProfileStyles from "../styles/Profile.module.css";
 import FormField from "../components/FormField";
 import styles from "../styles/Home.module.css";
 import NewProposalStyles from "../styles/NewProposal.module.css";
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import CustomButton from "../components/CustomButton";
 import { ContractViewsContext } from "../context/ContractViewsContext";
-import { useSDK } from "@thirdweb-dev/react";
+import { useSDK, useContractRead } from "@thirdweb-dev/react";
+import buyShares from "../utils/buyShares";
+import { AddressContext } from "../context/AddressContext";
 
 const Profile = () => {
   const {userBalance,
     isStakeholder,
     isContributor,
-    getStakeholderVotes
+    userStatus
   } = useContext(ContractViewsContext);
-  const [isLoading, setIsLoading] = useState(false);
-  const sdk = useSDK();
+  const {address, contract} = useContext(AddressContext);
 
   const [form, setForm] = useState({
     amount: '', 
@@ -28,19 +29,31 @@ const Profile = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const message = `Sign me! (${form.amount} MATIC)`;
+    buyShares(address, contract, form.amount);
   }
 
-  let userStatus;
-  if (!isContributor) {
-    userStatus = 'Standard';
-  } else if (isContributor && isStakeholder) {
-    userStatus = 'Stakeholder';
-  } else if (isContributor && !isStakeholder){
-    userStatus = 'Contributor';
-  } else {
-    userStatus = 'Error fetching the data';
-  }
+  // // getStakeholderVotes view:
+  let getStakeholderVotes = 'You are not a stakeholder. Contribution of at least 5 MATIC enables voting.';
+  const { data: getStakeholderVotesData, isLoading: getStakeholderVotesIsLoading, error: getStakeholderVotesError } = useContractRead(contract,'getStakeholderVotes', {from:address});
+
+  if (address && isStakeholder == true) {
+    if (getStakeholderVotesIsLoading) {
+      getStakeholderVotes = 'Loading...';
+    } else {
+      if (getStakeholderVotesError) {
+        if (getStakeholderVotesError.reason == "User is not a stakeholder") {
+          getStakeholderVotes = "You are not a stakeholder. Contribution of at least 5 MATIC enables voting."
+        } else {
+          getStakeholderVotes = 'Error fetching getStakeholderVotes';
+        }
+      } else if (getStakeholderVotesData == null) {
+        getStakeholderVotes = 'You are not a stakeholder. Contribution of at least 5 MATIC enables voting.';
+      } else {
+        getStakeholderVotes = getStakeholderVotesData.length;
+      }
+    }
+  }  
+
 
   return(
     <BaseLayout>

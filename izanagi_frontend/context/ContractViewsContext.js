@@ -8,10 +8,10 @@ const ContractViewsContext = createContext({});
 const ContractViewsProvider = ({ children }) => {
     const {address, contract} = useContext(AddressContext);
 
-    const { data: getBalanceData, isLoading: getBalanceIsLoading, error: getBalanceError } = useContractRead(contract,'getBalance');
-    const { data: isStakeholderData, isLoading: isStakeholderIsLoading, error: isStakeholderError } = useContractRead(contract,'isStakeholder');
-    const { data: isContributorData, isLoading: isContributorIsLoading, error: isContributorError } = useContractRead(contract,'isContributor');
-    
+    const { data: getBalanceData, isLoading: getBalanceIsLoading, error: getBalanceError } = useContractRead(contract,'getBalance',[],{from:address});
+    const { data: isStakeholderData, isLoading: isStakeholderIsLoading, error: isStakeholderError } = useContractRead(contract,'isStakeholder',[],{from:address});
+    const { data: isContributorData, isLoading: isContributorIsLoading, error: isContributorError } = useContractRead(contract,'isContributor',[],{from:address});
+
     // getBalance view function:
     let userBalance = 'N/A';
 
@@ -21,7 +21,7 @@ const ContractViewsProvider = ({ children }) => {
         } else if ((getBalanceData === undefined) || getBalanceError) {
             userBalance = 'Error fetching price';
         } else {
-            userBalance = getBalanceData.toString() === '0' ? '0 MATIC Contributed' : `${utils.formatEther(getBalanceData)} MATIC`;
+            userBalance = getBalanceData.toString() === '0' ? '0 MATIC Contributed' : `Address ${address}: ${utils.formatEther(getBalanceData)} MATIC`;
         }    
     }
 
@@ -52,29 +52,28 @@ const ContractViewsProvider = ({ children }) => {
         }
     }
 
-    // getStakeholderVotes view:
-    let getStakeholderVotes = 'You are not a stakeholder. Contribution of at least 5 MATIC enables voting.';
-
-    if (address && isStakeholder == true) {
-        const { data: getStakeholderVotesData, isLoading: getStakeholderVotesIsLoading, error: getStakeholderVotesError } = useContractRead(contract,'getStakeholderVotes');
-
-        if (getStakeholderVotesIsLoading) {
-            getStakeholderVotes = 'Loading...';
-        } else if (getStakeholderVotesError.reason == "User is not a stakeholder") {
-            getStakeholderVotes = "You are not a stakeholder. Contribution of at least 5 MATIC enables voting."
-        } else if ((getStakeholderVotesData === undefined) || getStakeholderVotesError) {
-            getStakeholderVotes = 'Error fetching getStakeholderVotes';
-        } else {
-            getStakeholderVotes = getStakeholderVotesData;
-        }
+    let userStatus;
+    if (!address || isStakeholderError || isContributorError) {
+        userStatus = 'N/A';
+    } else {
+        if (!isContributor) {
+            userStatus = 'Standard';
+          } else if (isContributor && isStakeholder) {
+            userStatus = 'Stakeholder';
+          } else if (isContributor && !isStakeholder){
+            userStatus = 'Contributor';
+          } else {
+            userStatus = 'Error fetching the data';
+          }      
     }
+    console.log('address:', address, 'contract:', contract, 'isStakeholderData:',isStakeholderData,'getBalanceData',getBalanceData);
 
     // Variables passed into provider, making them available across wrapped elements in app
     const propsValues = {
         userBalance,
         isStakeholder,
         isContributor,
-        getStakeholderVotes
+        userStatus
     }
   
     return (

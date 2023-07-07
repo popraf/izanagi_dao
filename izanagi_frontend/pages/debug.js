@@ -7,6 +7,7 @@ import { AddressContext } from "../context/AddressContext";
 import ExampleCall from "../utils/exampleContractViewCall";
 import { ethers, utils } from "ethers";
 import { ContractViewsContext } from "../context/ContractViewsContext";
+import GetBalance from "../utils/exampleGetBalance";
 
 const Debug = () => {
     const {userBalance,
@@ -26,7 +27,7 @@ const Debug = () => {
         <li>isContributor: {isContributor}</li>
         <li>getStakeholderVotes: {getStakeholderVotes}</li>
         <li>getProposals: {getProposals}</li>
-
+    <GetBalance />
   </BaseLayout>
   );
 };
