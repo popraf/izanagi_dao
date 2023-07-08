@@ -9,6 +9,7 @@ const ProposalCard = ({ proposal }) => {
 //   const { address, voteFor, executeProposal } = useContext(ProposalContext)
   const [statusText, setStatusText] = useState('')
   const [statusColor, setStatusColor] = useState('#fff')
+  const [readMore, setReadMore] = useState(false)
 
   const setStatus = () => {
     switch (proposal.state) {
@@ -43,31 +44,34 @@ const ProposalCard = ({ proposal }) => {
 
   return (
     <div className={styles.card}>
-      <div className={styles.top}>
-        <div>
-          <div className={styles.proposer}>
-            Proposer: {truncateEthAddress(proposal.proposer)}
-          </div>
-          <div className={styles.proposer}>
-            Amount: {utils.formatEther(proposal.amount)}
-          </div>
 
-          <div className={styles.description}>
+      <div className={styles.top}>
+            <div className={styles.top__left}>
+                <div className={styles.proposer}>
+                    Proposer: {truncateEthAddress(proposal.proposer)}
+                    <br />
+                    Amount: {utils.formatEther(proposal.amount)}
+                </div>
+            </div>
+
+            
+            <div className={styles.top__right}>
+                {parseInt(parseInt(utils.hexValue(proposal.votesFor),16))} Votes For
+                <br />
+                {parseInt(parseInt(utils.hexValue(proposal.votesAgainst),16))} Votes Against
+                <br />
+                Valid until {moment.unix(parseInt(utils.hexValue(proposal.livePeriod),16)).format("DD MMM YYYY")}
+            </div>
+      </div>
+        <div className={styles.description}>
             {proposal.description}
-          </div>
         </div>
-        <div className={styles.status}>
-            {parseInt(parseInt(utils.hexValue(proposal.votesFor),16))} Votes For
-            <br />
-            {parseInt(parseInt(utils.hexValue(proposal.votesAgainst),16))} Votes Against
-            <br />
-            Valid until {moment.unix(parseInt(utils.hexValue(proposal.livePeriod),16)).format("DD MMM YYYY")}
+
+        <div className={styles.bottom}>
+            <button className={styles.voteButton} onClick={() => setReadMore(!readMore)}>
+            Read More
+            </button>
         </div>
-      </div>
-      <div className={styles.bottom}>
-        <div className={styles.results}>
-        </div>
-      </div>
     </div>
   )
 }

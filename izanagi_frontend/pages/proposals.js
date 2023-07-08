@@ -21,8 +21,8 @@ const Proposals = () => {
        <div className={styles.main}>
          <h1 className={styles.title}>Search through <a>the proposals</a></h1>
         
-           <div className={styles.wrapper}>
-             <div className={styles.proposals}>
+           <div >
+             <div >
               {
                 !getProposalsIsLoading && 
                 getProposalsData && 
