@@ -23,7 +23,7 @@
     margin-top: 20px;
     width: 80%;
     border: 1px solid #3a3a43;
-    height: 25vh;
+    height: 28vh;
   }
   
   .top {
@@ -32,7 +32,6 @@
     gap: 1rem;
     flex-direction: row;
     width: 100%;
-    margin: 10px;
   }
   
   .proposer {
@@ -45,14 +44,15 @@
   .description {
     font-size: 1rem;
     color: #607c8e;
+    width: 100%;
   }
   
-  .voteButton {
+  .voteForButton {
     color: #eee;
     border: none;
     border-radius: 2rem;
     padding: 0.5rem;
-    font-size: 1.2rem;
+    /* font-size: 1.2rem; */
     font-weight: bold;
     cursor: pointer;
     display: flex;
@@ -62,42 +62,107 @@
     border: 1px solid #2d2d2d;
   }
   
-  .voteButton:hover {
+  .voteForButton:hover {
     border: 1px solid #eee;
     transition: all 0.2s ease-in-out;
   }
+
+  .voteAgainstButton {
+    color: #eee;
+    border: none;
+    border-radius: 2rem;
+    padding: 0.5rem;
+    /* font-size: 1.2rem; */
+    font-weight: bold;
+    cursor: pointer;
+    display: flex;
+    width: 100%;
+    margin: 10px 0;
+    background-color: #211f24;
+    border: 1px solid #2d2d2d;
+  }
   
+  .voteAgainstButton:hover {
+    border: 1px solid #eee;
+    transition: all 0.2s ease-in-out;
+  }
+
+  .readMoreButton {
+    color: #eee;
+    border: none;
+    border-radius: 2rem;
+    padding: 0.5rem;
+    /* font-size: 1.2rem; */
+    font-weight: bold;
+    cursor: pointer;
+    display: flex;
+    width: 100%;
+    margin: 10px 0;
+    background-color: #211f24;
+    border: 1px solid #2d2d2d;
+  }
+  
+  .readMoreButton:hover {
+    border: 1px solid #eee;
+    transition: all 0.2s ease-in-out;
+  }
+
   .top__left {
     font-size: 0.9rem;
     color: #eee;
     display: flex;
-    padding: 0 1.5rem;
-    border-radius: 2rem;
-    align-items: center;
-    max-height: 30px;
-    font-weight: bold;
+    padding: 0;
+    /* align-items: center; */
+    /* max-height: 30px; */
     justify-content: left;
     justify-items: left;
+    height: 50%;
+    width: 25%;
+
+    border: 1px solid #eee;/*TODO: DEL*/
   }
 
   .top__right {
     font-size: 0.9rem;
     color: #eee;
     display: flex;
-    padding: 0 1.5rem;
-    border-radius: 2rem;
+    /* padding: 0 1.5rem; */
+    /* border-radius: 2rem; */
     align-items: center;
-    max-height: 30px;
+    flex-direction: column;
+    /* max-height: 30px; */
     font-weight: bold;
     justify-content: right;
     justify-items: right;
+    width: 25%;
+    height: 100%;
+
+    border: 1px solid #eee;/*TODO: DEL*/
   }
   
-  .bottom {
+  .top__middle {
     display: flex;
     justify-content: space-between;
     gap: 1rem;
     flex-direction: column;
+    padding: 5px;
+    width: 100%;
+    /* justify-content:flex-start; */
+    align-content: center;
+    align-items: center;
+    /* justify-items: center; */
+    justify-content: center;
+  }
+
+  .mid__bottom {
+    display: grid;
+    justify-content: space-between;
+    gap: 1rem;
+    flex-direction: column;
+    width: 15%;
+    /* justify-content: center; */
+    justify-items: center;
+    align-items: center;
   }
   
   .results {
@@ -124,3 +189,17 @@
     align-items: center;
     justify-content: center;
   }
+
+  .line_clamp_3 {
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 3;
+}
+
+.shorten__text {
+  overflow-wrap: break-word;
+  white-space: pre-wrap;
+  font-size: 1.25rem;
+  line-height: 1.75rem;
+}

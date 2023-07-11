@@ -1,15 +1,40 @@
-import { useContext, useEffect, useMemo, useState } from 'react';
+import { useContext, useEffect, useMemo, useState, useLayoutEffect, useRef } from 'react';
 import styles from '../styles/ProposalCard.module.css';
 import { ethers, utils } from 'ethers';
 // import { ProposalContext } from '../context/ProposalContext';
 import truncateEthAddress from 'truncate-eth-address';
 import moment from 'moment';
 
+const useTruncatedElement = ({ ref }) => {
+    const [isTruncated, setIsTruncated] = useState(false);
+    const [readMore, setReadMore] = useState(false);
+  
+    useLayoutEffect(() => {
+      const { offsetHeight, scrollHeight } = ref.current || {};
+  
+      if (offsetHeight && scrollHeight && offsetHeight < scrollHeight) {
+        setIsTruncated(true);
+      } else {
+        setIsTruncated(false);
+      }
+    }, [ref]);
+
+    const toggleReadMore = () => setReadMore(!readMore);
+  
+    return {
+      isTruncated,
+      readMore,
+      toggleReadMore,
+    };
+  };
+
+
 const ProposalCard = ({ proposal }) => {
 //   const { address, voteFor, executeProposal } = useContext(ProposalContext)
   const [statusText, setStatusText] = useState('')
   const [statusColor, setStatusColor] = useState('#fff')
-  const [readMore, setReadMore] = useState(false)
+//   const [readMore, setReadMore] = useState(false)
+//   const [isTruncated, setIsTruncated] = useState(false)
 
   const setStatus = () => {
     switch (proposal.state) {
@@ -38,6 +63,10 @@ const ProposalCard = ({ proposal }) => {
     }
   }
 
+
+  const ref = useRef(null);
+  const { isTruncated, readMore, toggleReadMore } = useTruncatedElement({ ref, });
+
 //   useMemo(() => {
 //     setStatus()
 //   }, [statusText, statusColor, proposal.state])
@@ -50,28 +79,52 @@ const ProposalCard = ({ proposal }) => {
                 <div className={styles.proposer}>
                     Proposer: {truncateEthAddress(proposal.proposer)}
                     <br />
+                    Initiative: {truncateEthAddress(proposal.initiativeAddress)}
+                    <br />
                     Amount: {utils.formatEther(proposal.amount)}
                 </div>
             </div>
 
-            
+            <div className={styles.top__middle}>
+                {/* <div className={styles.description}>
+                    {proposal.description}
+                </div> */}
+                <div className={styles.description}>
+                    {/* {proposal.description} */}
+
+                    <p ref={ref} //className={`shorten__text ${!readMore && 'line-clamp-3'}`}
+                    className={`${styles.shorten__text} ${!readMore && styles.line_clamp_3}`}
+                    >
+                        {proposal?.description}
+                    </p>
+                </div>
+
+                <div className={styles.mid__bottom}>
+                    <button className={styles.readMoreButton} onClick={toggleReadMore}>
+                    {readMore?'Read Less':'Read More'}
+                    </button>
+                </div>
+
+            </div>
+
             <div className={styles.top__right}>
-                {parseInt(parseInt(utils.hexValue(proposal.votesFor),16))} Votes For
-                <br />
-                {parseInt(parseInt(utils.hexValue(proposal.votesAgainst),16))} Votes Against
-                <br />
-                Valid until {moment.unix(parseInt(utils.hexValue(proposal.livePeriod),16)).format("DD MMM YYYY")}
+                <div>
+                    <button className={styles.voteForButton}>
+                        {parseInt(parseInt(utils.hexValue(proposal.votesFor),16))} Votes For
+                    </button>
+                </div>
+                <br/>
+                <div>
+                    <button className={styles.voteAgainstButton}>
+                        {parseInt(parseInt(utils.hexValue(proposal.votesAgainst),16))} Votes Against
+                    </button>
+                </div>
+                <div>
+                    Valid until {moment.unix(parseInt(utils.hexValue(proposal.livePeriod),16)).format("DD MMM YYYY")}
+                </div>
             </div>
       </div>
-        <div className={styles.description}>
-            {proposal.description}
-        </div>
 
-        <div className={styles.bottom}>
-            <button className={styles.voteButton} onClick={() => setReadMore(!readMore)}>
-            Read More
-            </button>
-        </div>
     </div>
   )
 }

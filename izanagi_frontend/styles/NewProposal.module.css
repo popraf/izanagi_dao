@@ -10,7 +10,7 @@
   font-size: 14px;
   /* placeholder-color: #4b5264; */
   border-radius: 10px;
-  min-width: 300px;
+  width: 100%;
   resize: none;
 }
 
