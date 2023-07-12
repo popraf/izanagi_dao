@@ -6,6 +6,8 @@ import moment from 'moment';
 import proposalVote from '../utils/proposalVote';
 import { AddressContext } from '../context/AddressContext';
 import { useContractRead } from '@thirdweb-dev/react';
+import proposalTransfer from '../utils/proposalTransfer';
+import proposalCancel from '../utils/proposalCancel';
 
 const useTruncatedElement = ({ ref }) => {
     const [isTruncated, setIsTruncated] = useState(false);
@@ -29,7 +31,6 @@ const useTruncatedElement = ({ ref }) => {
       toggleReadMore,
     };
   };
-
 
 const ProposalCard = ({ proposal }) => {
   const {address, contract} = useContext(AddressContext);
@@ -58,10 +59,10 @@ const ProposalCard = ({ proposal }) => {
                     {proposal.proposer == address?
                     // This is redundant as everyone can transfer, but only owner can cancel
                       <div className={styles.containerTransferCancel}>
-                        <button className={styles.buttonTransferCancel}>
+                        <button className={styles.buttonTransferCancel} onClick={e => proposalTransfer(address, contract, proposal.id)}>
                           Transfer
                         </button>
-                        <button className={styles.buttonTransferCancel}>
+                        <button className={styles.buttonTransferCancel} onClick={e => proposalCancel(address, contract, proposal.id)}>
                           Cancel
                         </button>
                       </div>:
@@ -103,7 +104,11 @@ const ProposalCard = ({ proposal }) => {
                     </button>
                 </div>
                 <div>
-                    Valid until {moment.unix(parseInt(utils.hexValue(proposal.livePeriod),16)).format("DD MMM YYYY")}
+                  {moment.unix(parseInt(utils.hexValue(proposal.livePeriod),16)).isAfter(moment())?
+                  `Valid until ${moment.unix(parseInt(utils.hexValue(proposal.livePeriod),16)).format("DD MMM YYYY")}`:
+                  'Voting period finished'
+                  }
+                    
                 </div>
                 <div>{alreadyVoted?'Already voted':null}</div>
             </div>

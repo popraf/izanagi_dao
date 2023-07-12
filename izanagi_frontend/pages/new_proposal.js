@@ -8,11 +8,12 @@ import NewProposalStyles from "../styles/NewProposal.module.css";
 import styles from "../styles/Home.module.css";
 import SubmitProposal from "../utils/submitProposal";
 import { AddressContext } from "../context/AddressContext";
+import { useRouter } from 'next/router';
+import { ToastContainer, toast } from 'react-toastify';
 
 const NewProposal = () => {
   const {address, contract} = useContext(AddressContext);
-  // const [isLoading, setIsLoading] = useState(false);
-  // const { createCampaign } = useStateContext();
+  const router = useRouter();
   const [form, setForm] = useState({
     initiativeAddress: '',
     description: '',
@@ -25,7 +26,10 @@ const NewProposal = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    SubmitProposal(address, contract, form.description, form.initiativeAddress, form.amount);
+    const contractCall = await SubmitProposal(address, contract, form.description, form.initiativeAddress, form.amount);
+    if (contractCall) {
+      router.push('/success');
+    }
   }
 
 
@@ -34,6 +38,7 @@ const NewProposal = () => {
     <div className={styles.container}>
       <main className={styles.main}>
         <h1 className={styles.title}>Start <a>new campaign</a></h1>
+        {/* <ToastContainer /> */}
 
         <div className={NewProposalStyles.form__container}>
 

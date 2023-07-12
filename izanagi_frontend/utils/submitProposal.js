@@ -1,10 +1,11 @@
 import { ethers } from "ethers";
+import { ToastContainer, toast } from 'react-toastify';
 
 const SubmitProposal = async (_senderAddress, _contract, _description, _initiativeAddress, _amount) => {
 
     if(_senderAddress && _contract) {
         try {
-            await _contract.call(
+            let contractCall = await _contract.call(
                 "createProposal",
                 [_description, _initiativeAddress],
                 {
@@ -12,9 +13,11 @@ const SubmitProposal = async (_senderAddress, _contract, _description, _initiati
                     value: ethers.utils.parseEther(_amount),
                     from: _senderAddress, 
                 }
-            )    
+            )
+            return contractCall;
         } catch (error) {
             console.log(error.message);
+            // toast.error(error.message);
         }
     }
 }

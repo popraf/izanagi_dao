@@ -1,6 +1,5 @@
 import { ChainId, ThirdwebProvider } from "@thirdweb-dev/react";
 import { SidebarProvider } from "../context/SidebarContext";
-import { Polygon } from "@thirdweb-dev/chains";
 import "../styles/globals.css";
 import { AddressProvider } from "../context/AddressContext";
 import { ContractViewsProvider } from "../context/ContractViewsContext";
@@ -16,6 +15,7 @@ function MyApp({ Component, pageProps }) {
   } else {
     _my_chainId = ChainId.Mumbai;
   }
+
 
   return (
     <ThirdwebProvider desiredChainId={_my_chainId} activeChain={_my_chainId} >
