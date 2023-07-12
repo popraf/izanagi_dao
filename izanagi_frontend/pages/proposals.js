@@ -30,25 +30,29 @@ const Proposals = () => {
               }
              </div>
            </div>
+          {getProposalsData?.length>0?(
+          <>
+            <h2 className={styles.title}>Finished <a>proposals</a></h2>
+            <div >
+              <div >
+                {
+                  (!getProposalsIsLoading && 
+                  getProposalsData.length>0 &&
+                  getProposalsData.some(data => data.paid))?
 
-          <h2 className={styles.title}>Finished <a>proposals</a></h2>
-           <div >
-             <div >
-              {
-                (!getProposalsIsLoading && 
-                getProposalsData.length>0 &&
-                getProposalsData.some(data => data.paid))?
-
-                getProposalsData.map(
-                  data => data.paid?
-                    <ProposalCard key={Math.random()} proposal={data} />
-                    :null
-                ):
-                <h2>No finished proposals found</h2>
-              }
-             </div>
-           </div>
-
+                  getProposalsData.map(
+                    data => data.paid?
+                      <ProposalCard key={Math.random()} proposal={data} />
+                      :null
+                  ):
+                  <h2>No finished proposals found</h2>
+                }
+              </div>
+            </div>
+           </>
+           ):
+           null
+          }
       </div>
     </BaseLayout>
   );
