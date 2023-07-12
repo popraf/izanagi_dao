@@ -89,7 +89,12 @@
   overflow: hidden;
   border: 2px solid #f213a4;
   text-decoration: none;
+}
 
+.form_custom_button:hover {
+  color: #fd5dc5;
+  border: 2px solid #fd5dc5;
+  transition: all 0.1s ease-in-out;
 }
 
 .form_label {

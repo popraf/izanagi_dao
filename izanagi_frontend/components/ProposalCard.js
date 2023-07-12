@@ -4,6 +4,9 @@ import { ethers, utils } from 'ethers';
 // import { ProposalContext } from '../context/ProposalContext';
 import truncateEthAddress from 'truncate-eth-address';
 import moment from 'moment';
+import proposalVote from '../utils/proposalVote';
+import { AddressContext } from '../context/AddressContext';
+import { useContractRead } from '@thirdweb-dev/react';
 
 const useTruncatedElement = ({ ref }) => {
     const [isTruncated, setIsTruncated] = useState(false);
@@ -30,11 +33,11 @@ const useTruncatedElement = ({ ref }) => {
 
 
 const ProposalCard = ({ proposal }) => {
-//   const { address, voteFor, executeProposal } = useContext(ProposalContext)
   const [statusText, setStatusText] = useState('')
   const [statusColor, setStatusColor] = useState('#fff')
-//   const [readMore, setReadMore] = useState(false)
-//   const [isTruncated, setIsTruncated] = useState(false)
+  const {address, contract} = useContext(AddressContext);
+
+  const { data: getStakeholderVotesData, isLoading: getStakeholderVotesIsLoading, error: getStakeholderVotesError } = useContractRead(contract,'getStakeholderVotes',[],{from:address});
 
   const setStatus = () => {
     switch (proposal.state) {
@@ -66,6 +69,8 @@ const ProposalCard = ({ proposal }) => {
 
   const ref = useRef(null);
   const { isTruncated, readMore, toggleReadMore } = useTruncatedElement({ ref, });
+  const alreadyVoted = !getStakeholderVotesIsLoading?getStakeholderVotesData.map(data => utils.hexValue(data)).includes(utils.hexValue(proposal.id)):null;
+
 
 //   useMemo(() => {
 //     setStatus()
@@ -86,42 +91,38 @@ const ProposalCard = ({ proposal }) => {
             </div>
 
             <div className={styles.top__middle}>
-                {/* <div className={styles.description}>
-                    {proposal.description}
-                </div> */}
                 <div className={styles.description}>
-                    {/* {proposal.description} */}
-
-                    <p ref={ref} //className={`shorten__text ${!readMore && 'line-clamp-3'}`}
-                    className={`${styles.shorten__text} ${!readMore && styles.line_clamp_3}`}
-                    >
+                    <p ref={ref} className={`${styles.shorten__text} ${!readMore && styles.line_clamp_3}`}>
                         {proposal?.description}
                     </p>
                 </div>
 
                 <div className={styles.mid__bottom}>
-                    <button className={styles.readMoreButton} onClick={toggleReadMore}>
-                    {readMore?'Read Less':'Read More'}
-                    </button>
+                    {proposal?.description.length>328?
+                    (<button className={styles.readMoreButton} onClick={toggleReadMore}>
+                        {readMore?'Read Less':'Read More'}
+                    </button>):
+                    null}
                 </div>
 
             </div>
 
             <div className={styles.top__right}>
                 <div>
-                    <button className={styles.voteForButton}>
+                    <button className={alreadyVoted?styles.voteForInactive:styles.voteForButton} onClick={e => proposalVote(address, contract, proposal.id, true)}>
                         {parseInt(parseInt(utils.hexValue(proposal.votesFor),16))} Votes For
                     </button>
                 </div>
                 <br/>
                 <div>
-                    <button className={styles.voteAgainstButton}>
+                    <button className={alreadyVoted?styles.voteAgainstInactive:styles.voteAgainstButton} onClick={e => proposalVote(address, contract, proposal.id, false)}>
                         {parseInt(parseInt(utils.hexValue(proposal.votesAgainst),16))} Votes Against
                     </button>
                 </div>
                 <div>
                     Valid until {moment.unix(parseInt(utils.hexValue(proposal.livePeriod),16)).format("DD MMM YYYY")}
                 </div>
+                <div>{alreadyVoted?'Already voted':null}</div>
             </div>
       </div>
 

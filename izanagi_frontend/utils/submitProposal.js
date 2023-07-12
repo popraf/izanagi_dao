@@ -14,7 +14,7 @@ const SubmitProposal = async (_senderAddress, _contract, _description, _initiati
                 }
             )    
         } catch (error) {
-            console.log(error);
+            console.log(error.message);
         }
     }
 }

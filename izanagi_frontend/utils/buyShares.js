@@ -15,7 +15,7 @@ const buyShares = async (_senderAddress, _contract, _amount) => {
                 }
             )    
         } catch (error) {
-            console.log(error);
+            console.log(error.message);
         }
     }
 }
