@@ -1,7 +1,6 @@
-import { useContext, useEffect, useMemo, useState, useLayoutEffect, useRef } from 'react';
+import { useContext, useMemo, useState, useLayoutEffect, useRef } from 'react';
 import styles from '../styles/ProposalCard.module.css';
 import { ethers, utils } from 'ethers';
-// import { ProposalContext } from '../context/ProposalContext';
 import truncateEthAddress from 'truncate-eth-address';
 import moment from 'moment';
 import proposalVote from '../utils/proposalVote';
@@ -33,44 +32,12 @@ const useTruncatedElement = ({ ref }) => {
 
 
 const ProposalCard = ({ proposal }) => {
-  const [statusText, setStatusText] = useState('')
-  const [statusColor, setStatusColor] = useState('#fff')
   const {address, contract} = useContext(AddressContext);
-
   const { data: getStakeholderVotesData, isLoading: getStakeholderVotesIsLoading, error: getStakeholderVotesError } = useContractRead(contract,'getStakeholderVotes',[],{from:address});
-
-  const setStatus = () => {
-    switch (proposal.state) {
-      case 0:
-        setStatusText('Pending')
-        setStatusColor('#48494a')
-      case 1:
-        setStatusText('Active')
-        setStatusColor('#21b66f')
-        break
-      case 3:
-        setStatusText('Defeated')
-        setStatusColor('#f44336')
-        break
-      case 7:
-        setStatusText('Executed')
-        setStatusColor('#0011ff')
-        break
-      case 4:
-        setStatusText('Successful')
-        setStatusColor('#21b66f')
-        break
-      default:
-        setStatusText('Unknown')
-        setStatusColor('#fff')
-    }
-  }
-
 
   const ref = useRef(null);
   const { isTruncated, readMore, toggleReadMore } = useTruncatedElement({ ref, });
   const alreadyVoted = !getStakeholderVotesIsLoading?getStakeholderVotesData.map(data => utils.hexValue(data)).includes(utils.hexValue(proposal.id)):null;
-
 
 //   useMemo(() => {
 //     setStatus()
@@ -86,8 +53,24 @@ const ProposalCard = ({ proposal }) => {
                     <br />
                     Initiative: {truncateEthAddress(proposal.initiativeAddress)}
                     <br />
-                    Amount: {utils.formatEther(proposal.amount)}
+                    Amount: {utils.formatEther(proposal.amount)} MATIC
+
+                    {proposal.proposer == address?
+                    // This is redundant as everyone can transfer, but only owner can cancel
+                      <div className={styles.containerTransferCancel}>
+                        <button className={styles.buttonTransferCancel}>
+                          Transfer
+                        </button>
+                        <button className={styles.buttonTransferCancel}>
+                          Cancel
+                        </button>
+                      </div>:
+                      null
+                    }
+                    
                 </div>
+            </div>
+            <div>
             </div>
 
             <div className={styles.top__middle}>
@@ -131,17 +114,3 @@ const ProposalCard = ({ proposal }) => {
 }
 
 export default ProposalCard
-
-
-
-{/* <li>Proposal amount: {utils.formatEther(proposal.amount)}</li>
-<li>Proposal description: {proposal.description}</li>
-<li>Proposal id: {utils.formatEther(proposal.id)}</li>
-<li>Proposal initiative Address: {proposal.initiativeAddress}</li>
-<li>Proposal live Period: {utils.formatEther(proposal.livePeriod)}</li>
-<li>Proposal paid: {proposal.paid.toString()}</li>
-<li>Proposal paid By: {proposal.paidBy}</li>
-<li>Proposal proposer: {proposal.proposer}</li>
-<li>Proposal votes Against: {utils.formatEther(proposal.votesAgainst)}</li>
-<li>Proposal votes For: {utils.formatEther(proposal.votesFor)}</li>
-<li>Proposal voting Passed: {proposal.votingPassed.toString()}</li> */}

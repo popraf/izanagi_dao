@@ -10,6 +10,7 @@ import { ContractViewsContext } from "../context/ContractViewsContext";
 import { useSDK, useContractRead } from "@thirdweb-dev/react";
 import buyShares from "../utils/buyShares";
 import { AddressContext } from "../context/AddressContext";
+import ProposalCard from "../components/ProposalCard";
 
 const Profile = () => {
   const {userBalance,
@@ -34,7 +35,8 @@ const Profile = () => {
 
   // // getStakeholderVotes view:
   let getStakeholderVotes = 'You are not a stakeholder. Contribution of at least 5 MATIC enables voting.';
-  const { data: getStakeholderVotesData, isLoading: getStakeholderVotesIsLoading, error: getStakeholderVotesError } = useContractRead(contract,'getStakeholderVotes',[], {from:address});
+  const { data: getStakeholderVotesData, isLoading: getStakeholderVotesIsLoading, error: getStakeholderVotesError } = useContractRead(contract,'getStakeholderVotes',[], {from:address, blockTag: "latest"});
+  const { data: getProposalsData, isLoading: getProposalsIsLoading, error: getProposalsError } = useContractRead(contract,'getProposals',[], {from:address, blockTag: "latest"}/*, {cacheOnBlock: true}, {staleTime: 10_000} - this is unsupported by Thirdweb lib, however available in wagmi*/);
 
   if (address && isStakeholder == true) {
     if (getStakeholderVotesIsLoading) {
@@ -52,7 +54,8 @@ const Profile = () => {
         getStakeholderVotes = getStakeholderVotesData.length;
       }
     }
-  }  
+  }
+
 
 
   return(
@@ -107,21 +110,20 @@ const Profile = () => {
           </div>
 
         <h2 className={ProfileStyles.subtitle}>Proposals Submitted</h2>
-          <div className={ProfileStyles.grid}>
-            <a className={ProfileStyles.card}>
-              <h2>Proposal 1</h2>
-              <p>dummy Proposal 1 Description</p>
-            </a>
-
-            <a className={ProfileStyles.card}>
-              <h2>Proposal 2</h2>
-              <p>dummy Proposal 2 Description</p>
-            </a>
-
-            <a className={ProfileStyles.card}>
-              <h2>Proposal 3</h2>
-              <p>dummy Proposal 3 Description</p>
-            </a>
+          <div>
+            <div>
+            {
+                (!getProposalsIsLoading && 
+                getProposalsData.length>0 &&
+                getProposalsData.some(data => data.proposer == address))?
+                getProposalsData.map(
+                  data => data.proposer == address?
+                    <ProposalCard key={Math.random()} proposal={data} />
+                    :null
+                ):
+                <h2>No submitted proposals yet</h2>
+              }
+            </div>
           </div>
 
       </main>
@@ -130,5 +132,4 @@ const Profile = () => {
   );
 };
 
-// export default withAuth(Profile);
-export default (Profile);
+export default withAuth(Profile);

@@ -14,24 +14,42 @@ const Proposals = () => {
   const {address, contract} = useContext(AddressContext);
   const { data: getProposalsData, isLoading: getProposalsIsLoading, error: getProposalsError } = useContractRead(contract,'getProposals',[], {from:address});
 
-  console.log(getProposalsData);
+  // console.log(getProposalsData);
 
   return(
     <BaseLayout>
        <div className={styles.main}>
          <h1 className={styles.title}>Search through <a>the proposals</a></h1>
-        
            <div >
              <div >
               {
-                !getProposalsIsLoading && 
-                getProposalsData && 
+                (!getProposalsIsLoading && 
+                getProposalsData.length>0 &&
+                getProposalsData.some(data => !data.paid))?
                 getProposalsData.map(
-                  data =>
-                    {
-                      return (<ProposalCard key={Math.random()} proposal={data} />)
-                    }
-                )
+                  data => !data.paid?
+                    <ProposalCard key={Math.random()} proposal={data} />
+                    :null
+                ):
+                <h2>No active proposals found</h2>
+              }
+             </div>
+           </div>
+
+          <h2 className={styles.title}>Finished <a>proposals</a></h2>
+           <div >
+             <div >
+              {
+                (!getProposalsIsLoading && 
+                getProposalsData.length>0 &&
+                getProposalsData.some(data => data.paid))?
+
+                getProposalsData.map(
+                  data => data.paid?
+                    <ProposalCard key={Math.random()} proposal={data} />
+                    :null
+                ):
+                <h2>No finished proposals found</h2>
               }
              </div>
            </div>
